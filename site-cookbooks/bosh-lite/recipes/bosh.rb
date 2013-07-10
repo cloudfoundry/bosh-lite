@@ -3,7 +3,6 @@
   libreadline-dev
   build-essential
   zlib1g-dev
-  git
   libxml2-dev
   libxslt-dev
   libsqlite3-dev
@@ -14,7 +13,6 @@
   kpartx
   debootstrap
   wamerican
-  redis-server
   nginx
   libcurl4-openssl-dev
 ).each do |package_name|
@@ -42,8 +40,8 @@ rbenv_gem 'bosh_docker_cpi' do
 end
 
 rbenv_gem 'bosh_warden_cpi' do
-  version '>=0.0.0'
-  options('--prerelease')
+  version '1.5.0.pre.3'
+  source 'https://s3.amazonaws.com/bosh-jenkins-gems-warden/'
 end
 
 %w(config blobstore director db).each do |dir|

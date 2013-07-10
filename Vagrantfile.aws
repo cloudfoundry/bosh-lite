@@ -15,7 +15,7 @@ Vagrant.configure("2") do |config|
     override.ssh.private_key_path = "/home/ubuntu/.ssh/id_rsa_bosh"
   end
 
-  config.vm.provision :shell,       :path => "scripts/install_chef.sh"
+  config.vm.provision :shell,       :path => "scripts/aws_customize.sh"
 
 
   config.vm.provision :chef_solo do |chef|

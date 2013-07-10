@@ -1,11 +1,9 @@
 include_recipe 'runit'
 include_recipe 'bosh-lite::rbenv'
 
-%w{ build-essential debootstrap quota git iptables }.each { |package_name| package package_name }
+%w{ build-essential debootstrap quota iptables }.each { |package_name| package package_name }
 
-execute "install bundler" do
-  command "gem install bundler"
-end
+rbenv_gem "bundler"
 
 git "/opt/warden" do
   repository "git://github.com/cloudfoundry/warden.git"
@@ -37,7 +35,7 @@ end
 
 10.upto(138) do |i|
   execute "mknod /dev/loop#{i} b 7 #{i}" do
-    not_if { File.exists?("/dev/loop#{i}") }
+    not_if { ::File.exists?("/dev/loop#{i}") }
   end
 end
 

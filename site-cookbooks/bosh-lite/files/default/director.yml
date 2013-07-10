@@ -35,7 +35,7 @@ compiled_package_cache:
     user: bs_admin
     password: bs_pass
 scan_and_fix:
-  auto_fix_stateful_nodes: true
+  auto_fix_stateful_nodes: false
 cloud:
   plugin: warden
   properties:

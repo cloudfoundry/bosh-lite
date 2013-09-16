@@ -48,16 +48,10 @@ Below are installation processes, including deployment of Cloud Foundry.
     bosh target 192.168.50.4
     ```
     
-1. Download latest warden stemcell
-
-    ```
-    wget http://bosh-jenkins-gems-warden.s3.amazonaws.com/stemcells/latest-bosh-stemcell-warden.tgz
-    ```
-    
 1. Upload Stemcell
  
     ```
-    bosh upload stemcell latest-bosh-stemcell-warden.tgz
+    bosh upload stemcell http://bosh-jenkins-gems-warden.s3.amazonaws.com/stemcells/latest-bosh-stemcell-warden.tgz
     ```
 
 1. Generate CF deployment manifest

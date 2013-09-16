@@ -1,12 +1,28 @@
 # bosh-lite
 
-A lite development env for BOSH using Warden from within vagrant
+A lite development env for BOSH using Warden from within Vagrant.
+
+This readme also includes demonstrates how to deploy Cloud Foundry into bosh-lite.
 
 ## Installation
 
-Below are installation processes, including deployment of Cloud Foundry.
+For all use cases, first prepare this project with `bundler` & `librarian-chef`.
 
-* Vagrant (VMWare Fusion)
+1. Run Bundler
+
+    ```
+    bundle
+    ```
+
+1. Run Librarian
+
+    ```
+    librarian-chef install
+    ```
+
+Below are installation processes for different target Vagrant provisioners.
+
+* VMWare Fusion
 * Virtualbox
 * AWS
 
@@ -47,35 +63,12 @@ Below are installation processes, including deployment of Cloud Foundry.
     ```
     bosh target 192.168.50.4
     ```
-    
-1. Download latest warden stemcell
+
+1. Add a set of route entries to your local route table to enable direct warden container access. Your sudo password may be required.
 
     ```
-    wget http://bosh-jenkins-gems-warden.s3.amazonaws.com/stemcells/latest-bosh-stemcell-warden.tgz
+    scripts/add-route
     ```
-    
-1. Upload Stemcell
- 
-    ```
-    bosh upload stemcell latest-bosh-stemcell-warden.tgz
-    ```
-
-1. Generate CF deployment manifest
-
-    ```
-    cp manifests/cf-stub.yml manifests/[your-name-manifest].yml
-    bosh deployment manifests/[your-name-manifest].yml
-    bosh diff [cf-release]/templates/cf-aws-template.yml.erb
-    ./scripts/transform.rb -f manifests/[your-name-manifest].yml
-    ```
-    
-    or simply
-    ```
-    ./scripts/make_manifest
-    ```
-
-1. Create CF release (form cf-release repo bosh-lite branch)
-1. Deploy!
 
 ###USE Virtualbox Provider
 
@@ -86,18 +79,6 @@ Below are installation processes, including deployment of Cloud Foundry.
 1. Install Vagrant omnibus plugin
     ```
     vagrant plugin install vagrant-omnibus
-    ```
-
-1. Run Bundler
-
-    ```
-    bundle
-    ```
-
-1. Run Librarian
-
-    ```
-    librarian-chef install
     ```
 
 1. Start vagrant
@@ -111,7 +92,13 @@ Below are installation processes, including deployment of Cloud Foundry.
     ```
     bosh target 192.168.50.4
     ```
-    
+
+1. Add a set of route entries to your local route table to enable direct warden container access. Your sudo password may be required.
+
+    ```
+    scripts/add-route
+    ```
+
 ###USE AWS provider
 
 1. Install Vagrant AWS provider
@@ -139,4 +126,39 @@ Below are installation processes, including deployment of Cloud Foundry.
     ```
     vagrant up --provider=aws
     ```
+
+## Upload Warden stemcell
+
+bosh-lite uses the Warden CPI, so we need to use the Warden Stemcell.
+
+1. Download latest warden stemcell
+
+    ```
+    wget http://bosh-jenkins-gems-warden.s3.amazonaws.com/stemcells/latest-bosh-stemcell-warden.tgz
+    ```
+    
+1. Upload Stemcell
+ 
+    ```
+    bosh upload stemcell latest-bosh-stemcell-warden.tgz
+    ```
+
+## Deploy Cloud Foundry
+
+1. Generate CF deployment manifest
+
+    ```
+    cp manifests/cf-stub.yml manifests/[your-name-manifest].yml
+    bosh deployment manifests/[your-name-manifest].yml
+    bosh diff [cf-release]/templates/cf-aws-template.yml.erb
+    ./scripts/transform.rb -f manifests/[your-name-manifest].yml
+    ```
+    
+    or simply
+    ```
+    ./scripts/make_manifest
+    ```
+
+1. Create CF release (form cf-release repo bosh-lite branch)
+1. Deploy!
 

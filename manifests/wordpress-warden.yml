@@ -8,7 +8,7 @@ release:
 
 compilation:
   workers: 8
-  network: compile
+  network: default
   cloud_properties: {}
 
 update:
@@ -18,33 +18,30 @@ update:
   max_in_flight: 4
 
 networks:
-
-- name: compile
+- name: default
   subnets:
-<% (0..63).each_with_index.map do |i| %>
+<% (0..28).each_with_index do |i| %>
   - range: 10.244.0.<%= i*4 %>/30
     reserved:
       - 10.244.0.<%= i*4 + 1 %>
-    # static:
-    #   - 10.244.0.<%= i*4 + 2 %>
+    static:
+      - 10.244.0.<%= i*4 + 2 %>
     cloud_properties:
       name: random
 <% end %>
-- name: default
-  subnets:
-<% (0..63).each_with_index.map do |i| %>
-  - range: 10.244.1.<%= i*4 %>/30
+<% (29..61).each_with_index do |i| %>
+  - range: 10.244.0.<%= i*4 %>/30
     reserved:
-      - 10.244.1.<%= i*4 + 1 %>
-    static:
-      - 10.244.1.<%= i*4 + 2 %>
+      - 10.244.0.<%= i*4 + 1 %>
     cloud_properties:
       name: random
-<% end
-(0..63).each_with_index.map do |i| %>
-  - range: 10.244.2.<%= i*4 %>/30
+<% end %>
+<% (62..63).each_with_index do |i| %>
+  - range: 10.244.0.<%= i*4 %>/30
     reserved:
-      - 10.244.2.<%= i*4 + 1 %>
+      - 10.244.0.<%= i*4 + 1 %>
+    static:
+      - 10.244.0.<%= i*4 + 2 %>
     cloud_properties:
       name: random
 <% end %>
@@ -68,7 +65,7 @@ jobs:
     networks:
     - name: default
       static_ips:
-      - 10.244.1.2
+      - 10.244.0.2
 
   - name: wordpress
     template: wordpress
@@ -77,26 +74,25 @@ jobs:
     networks:
     - name: default
       static_ips:
-      - 10.244.1.6
+      - 10.244.0.6
 
   - name: nginx
     template: nginx
-    instances: 2
+    instances: 1
     resource_pool: infrastructure
     networks:
     - name: default
       default: [dns, gateway]
       static_ips:
-        - 10.244.1.10
-        - 10.244.1.14
+        - 10.244.0.10
 
 properties:
   wordpress:
     admin: foo@bar.com
     port: 8008
     servers:
-      - 10.244.1.6
-    servername: wp.appcloud14.dev.mozycloud.com
+      - 10.244.0.6
+    servername: 10.244.0.10.xip.io
     db:
        name: wp
        user: wordpress
@@ -111,7 +107,7 @@ properties:
     nonce_salt: random key
 
   mysql:
-    address: 10.244.1.2
+    address: 10.244.0.2
     port: 3306
     password: rootpass
 

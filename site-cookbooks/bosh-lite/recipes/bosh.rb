@@ -100,7 +100,7 @@ service 'nginx' do
   action :restart
 end
 
-%w(worker director).each do |service_name|
+%w(worker-0 worker-1 director).each do |service_name|
   runit_service service_name do
     default_logger true
     options({:user => 'root'})

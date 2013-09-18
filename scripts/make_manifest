@@ -1,10 +1,18 @@
 #!/bin/bash
 
+BOSH_RELEASES_DIR=${BOSH_RELEASES_DIR:-~/workspace}
+CF_RELEASE_DIR=${CF_RELEASE_DIR:-$BOSH_RELEASES_DIR/cf-release}
+
+if [[ ! -d $CF_RELEASE_DIR ]]; then
+  echo "Cannot find cf-release at $CF_RELEASE_DIR; override with \$CF_RELEASE_DIR variable"
+  exit 1
+fi
+
 cp manifests/cf-stub.yml manifests/cf-manifest.yml
 DIRECTOR_UUID=$(bosh status | grep UUID | awk '{print $2}')
 bosh status | grep UUID | awk '{print $2}'
 perl -pi -e "s/PLACEHOLDER-DIRECTOR-UUID/$DIRECTOR_UUID/g" manifests/cf-manifest.yml
 bosh target https://192.168.50.4:25555
 bosh deployment manifests/cf-manifest.yml
-bosh -n diff ~/workspace/cf-release/templates/cf-aws-template.yml.erb
+bosh -n diff $BOSH_RELEASES_DIR/cf-release/templates/cf-aws-template.yml.erb
 scripts/transform.rb -f manifests/cf-manifest.yml

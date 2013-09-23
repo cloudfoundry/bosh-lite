@@ -12,6 +12,10 @@ cp manifests/cf-stub.yml manifests/cf-manifest.yml
 DIRECTOR_UUID=$(bosh status | grep UUID | awk '{print $2}')
 echo $DIRECTOR_UUID
 perl -pi -e "s/PLACEHOLDER-DIRECTOR-UUID/$DIRECTOR_UUID/g" manifests/cf-manifest.yml
+if [[ ! $(bosh releases | grep " cf-release ") ]]; then
+  echo "No release 'cf-release' found; switching to 'cf' release"
+  perl -pi -e "s/name: cf-release/name: cf/g" manifests/cf-manifest.yml
+fi
 bosh target https://192.168.50.4:25555
 bosh deployment manifests/cf-manifest.yml
 bosh -n diff $BOSH_RELEASES_DIR/cf-release/templates/cf-aws-template.yml.erb

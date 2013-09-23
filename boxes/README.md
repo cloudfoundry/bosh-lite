@@ -14,8 +14,9 @@ To build all boxes:
 Or, to build one box:
 
     make list
-    # Choose a definition, like 'virtualbox/boshlite-ubuntu1204'
-    make virtualbox/boshlite-ubuntu1204
+
+    # Choose a definition, like 'virtualbox/boshlite-ubuntu1204.box'
+    make virtualbox/boshlite-ubuntu1204.box
 ##Launch bosh-lite boxes
 
 Use the Vagrantfile in this folder

@@ -14,5 +14,5 @@ echo $DIRECTOR_UUID
 perl -pi -e "s/PLACEHOLDER-DIRECTOR-UUID/$DIRECTOR_UUID/g" manifests/cf-manifest.yml
 bosh target https://192.168.50.4:25555
 bosh deployment manifests/cf-manifest.yml
-bosh -n diff $BOSH_RELEASES_DIR/cf-release/templates/cf-aws-template.yml.erb
+bosh -n diff $CF_RELEASE_DIR/templates/cf-aws-template.yml.erb
 scripts/transform.rb -f manifests/cf-manifest.yml

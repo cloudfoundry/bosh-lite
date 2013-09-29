@@ -16,3 +16,7 @@ bosh target https://192.168.50.4:25555
 bosh deployment manifests/cf-manifest.yml
 bosh -n diff $CF_RELEASE_DIR/templates/cf-aws-template.yml.erb
 scripts/transform.rb -f manifests/cf-manifest.yml
+if [[ ! $(bosh releases | grep " cf-release ") ]]; then
+  perl -pi -e "s/cf-release/cf/g" manifests/cf-manifest.yml
+  echo "No release 'cf-release' found; switching to 'cf' release"
+fi

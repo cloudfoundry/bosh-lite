@@ -31,6 +31,10 @@ node.set['postgresql']['config']['ssl'] = false
 include_recipe 'postgresql::server'
 include_recipe 'postgresql::ruby'
 
+rbenv_gem "eventmachine" do
+  version "0.12.10"
+end
+
 %w(pg nats bundler).each do |gem|
   rbenv_gem gem
 end

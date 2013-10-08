@@ -135,7 +135,7 @@ Known to work with Fusion version 5.0.3
 
 ## Troubleshooting
 
-1. If you want to start over again, you can use `vagrant destory` from the base directory of this project to remove the VM.
+1. If you want to start over again, you can use `vagrant destroy` from the base directory of this project to remove the VM.
 1. To start with a new VM just execute the appropriate `vagrant up` command optionally with the provider option as shown in the earlier sections.
 
 ## Upload Warden stemcell

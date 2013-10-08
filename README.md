@@ -142,16 +142,10 @@ Known to work with Fusion version 5.0.3
 
 bosh-lite uses the Warden CPI, so we need to use the Warden Stemcell which will be the root file system for all Linux Containers created by the Warden CPI.
 
-1. Download latest warden stemcell
-
-    ```
-    wget http://bosh-jenkins-gems-warden.s3.amazonaws.com/stemcells/latest-bosh-stemcell-warden.tgz
-    ```
-
 1. Upload Stemcell
 
     ```
-    bosh upload stemcell latest-bosh-stemcell-warden.tgz
+    bosh upload stemcell http://bosh-jenkins-gems-warden.s3.amazonaws.com/stemcells/latest-bosh-stemcell-warden.tgz
     ```
 
 ## Deploy Cloud Foundry (Non-Spiff Approach)

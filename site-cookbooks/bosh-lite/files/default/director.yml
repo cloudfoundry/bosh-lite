@@ -32,12 +32,6 @@ blobstore:
     endpoint: http://127.0.0.1:21081
     user: bs_admin
     password: bs_pass
-compiled_package_cache:
-  provider: simple
-  options:
-    endpoint: http://127.0.0.1:21081
-    user: bs_admin
-    password: bs_pass
 scan_and_fix:
   auto_fix_stateful_nodes: false
 cloud:

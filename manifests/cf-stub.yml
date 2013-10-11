@@ -73,3 +73,6 @@ properties:
         name: uaadb
         citext: true
 
+  loggregator:
+    incoming_port: 3456
+

@@ -196,7 +196,7 @@ Spiff is the way that Cloud Foundry is deployed in production, and can be used f
     
     **NOTE**: This uses spiff. Install that first, see https://github.com/vito/spiff
     
-    **NOTE**: This assumes you've checked out http://github.com/cloudfoundry/cf-release to ~/cf-release. Do that first too.
+    **NOTE**: This assumes you've checked out http://github.com/cloudfoundry/cf-release to ~/cf-release. Do that first too. Run ~/cf-release/update also.
 
     ```
     ~/cf-release/generate_deployment_manifest warden ~/deployment-stub.yml > ~/deployment.yml
@@ -204,7 +204,9 @@ Spiff is the way that Cloud Foundry is deployed in production, and can be used f
 
 1.  Bosh target 192.168.50.4 and run bosh as normal, passing your generated manifest:
     ```
+    cd ~/cf-release
     bosh create release
+    # enter the name from the deployment-stub.yml file  - for example, 'cf'
     bosh upload release
     bosh deployment ~/deployment.yml
     bosh deploy

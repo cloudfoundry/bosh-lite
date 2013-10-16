@@ -1,10 +1,9 @@
 source 'https://rubygems.org'
-source 'https://s3.amazonaws.com/bosh-jenkins-gems/'
 
 ruby '1.9.3'
 
 gem 'librarian-chef'
-gem 'bosh_cli', '~>1.5.0.pre.721'
+gem 'bosh_cli', '~>1.5.0.pre.0'
 
 group :development, :test do
   gem 'rake'

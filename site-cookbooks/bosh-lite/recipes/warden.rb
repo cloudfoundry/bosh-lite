@@ -28,7 +28,7 @@ execute "rbenv rehash"
 
 execute "setup_warden" do
   cwd "/opt/warden/warden"
-  command "/opt/rbenv/shims/bundle install && /opt/rbenv/shims/bundle exec rake setup:bin[/opt/warden/config/warden-cpi-vm.yml]"
+  command "/opt/rbenv/shims/bundle install && rbenv rehash && /opt/rbenv/shims/bundle exec rake setup:bin[/opt/warden/config/warden-cpi-vm.yml]"
   action :run
 end
 

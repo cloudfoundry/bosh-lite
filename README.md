@@ -216,7 +216,8 @@ $ bosh ssh
 9. health_manager/0
 10. dea_next/0
 11. router/0
-Choose an instance:
+Choose an instance: <your choice>
+Enter password (use it to sudo on remote host): vagrant
 ```
 
 ## Restore your deployment

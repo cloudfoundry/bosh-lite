@@ -196,6 +196,10 @@ $ bosh download public stemcell bosh-stemcell-24-warden-boshlite-ubuntu.tgz
 
     curl -s http://spiff.cfapps.io/install.sh | bash
     ```
+    **Note**: consider whether you have an older version of spiff in your path; replace the older version with the newer. 
+    ```
+    $ mv spiff /usr/local/bin/
+    ```
 
 1. Decide which final release of Cloud Foundry you wish to deploy, by looking at in the [releases directory of cf-release](https://github.com/cloudfoundry/cf-release/tree/master/releases).  At the time of this writing, cf-149 is the most recent.  We will use that as the example, but you are free to substitute any future release.
 

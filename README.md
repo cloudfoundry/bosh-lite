@@ -37,7 +37,9 @@ Below are installation insructions for different Vagrant providers.
 
 Fusion is faster, more reliable and we test against it more frequently. Both fusion and the vagrant fusion provider require a license.
 
-Known to work with Fusion version 6.0.2 and vagrant plugin vagrant-vmware-fusion version 2.2.0 .
+Known to work with Fusion version 6.0.2 and vagrant plugin vagrant-vmware-fusion version 2.2.0.
+
+**Note**: Although it appears you can bring a vagrant box up without having the Fusion app running, be aware that quitting the Fusion app will suspend your VM. 
 
 1. Install vagrant Fusion Plugin and license
 

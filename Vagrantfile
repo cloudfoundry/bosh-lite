@@ -7,6 +7,7 @@ Vagrant.configure('2') do |config|
   config.vm.hostname='bosh-lite'
   config.vm.box = "boshlite-ubuntu1204-build#{BOX_VERSION}"
   config.vm.network :private_network, ip: '192.168.50.4'
+  config.vm.synced_folder "bosh-dev/", "/bosh-dev", create: true, type: "nfs"
 
   config.vm.provider :virtualbox do |v, override|
     override.vm.box_url = "http://bosh-lite-build-artifacts.s3.amazonaws.com/bosh-lite/#{BOX_VERSION}/boshlite-virtualbox-ubuntu1204.box"

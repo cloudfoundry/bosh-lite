@@ -3,7 +3,7 @@ echo "Applying bosh-dev patch to bosh_warden_cpi"
 
 sudo sed -i 's|      return \[bind_mount, ephemeral_mount\]| \
 dev_mount = Warden::Protocol::CreateRequest::BindMount.new \
-dev_mount.src_path = "bosh-dev" \
+dev_mount.src_path = "/bosh-dev" \
 dev_mount.dst_path = "/bosh-dev" \
 dev_mount.mode = Warden::Protocol::CreateRequest::BindMount::Mode::RW \
 return [bind_mount, ephemeral_mount, dev_mount]|g' \

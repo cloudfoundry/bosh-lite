@@ -217,7 +217,6 @@ $ bosh download public stemcell bosh-stemcell-24-warden-boshlite-ubuntu.tgz
     ````
     cd ~/workspace/cf-release
     ./update
-    git checkout v149
     ````
 
 1.  Use the make_manifest_spiff script to create a cf manifest.  This step

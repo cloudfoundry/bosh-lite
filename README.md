@@ -39,7 +39,9 @@ Below are installation insructions for different Vagrant providers.
 
 Fusion is faster, more reliable and we test against it more frequently. Both fusion and the vagrant fusion provider require a license.
 
-Known to work with Fusion version 6.0.2 and vagrant plugin vagrant-vmware-fusion version 2.2.0 .
+Known to work with Fusion version 6.0.2 and vagrant plugin vagrant-vmware-fusion version 2.2.0.
+
+**Note**: Although it appears you can bring a vagrant box up without having the Fusion app running, be aware that quitting the Fusion app will suspend your VM. 
 
 1. Install vagrant Fusion Plugin and license
 
@@ -220,10 +222,15 @@ $ bosh download public stemcell bosh-stemcell-24-warden-boshlite-ubuntu.tgz
     git checkout v149
     ````
 
-1.  Use the make_manifest_spiff script to create a cf manifest.  This step
-assumes you have cf-release checked out to ~/workspace [note that you can have
-it checked out to somewhere else, you just have to set the BOSH_RELEASES_DIR
-environment variable to something other than its default value of ~/workspace].  It requires that cf-release is checked out the tag matching the final release you wish to deploy so tha the templates used by make_manifest_spiff match the code you are deploying.
+1.  Upload final release
+
+    ```
+    bosh upload release releases/cf-149.yml
+    ```
+
+1.  Use the make_manifest_spiff script to create a cf manifest.  This step assumes you have cf-release checked out to ~/workspace [note that you can have it checked out to somewhere else, you just have to set the BOSH_RELEASES_DIR environment variable to something other than its default value of ~/workspace].  It requires that cf-release is checked out the tag matching the final release you wish to deploy so tha the templates used by make_manifest_spiff match the code you are deploying.
+  
+    **Note**: make sure you have the latest version of [spiff](https://github.com/cloudfoundry-incubator/spiff) in your path. 
 
     make_manifest_spiff will target your bosh-lite director, find the uuid, create a manifest stub and run spiff to generate a manifest at manifests/cf-manifest.yml. (If this fails, try updating spiff)
 
@@ -232,17 +239,9 @@ environment variable to something other than its default value of ~/workspace]. 
     ./scripts/make_manifest_spiff
     ```
 
-1.  Upload final release
-
-    ```
-    cd ~/workspace/cf-release
-    bosh upload release releases/cf-149.yml
-    ```
-
 1.  Deploy CF to bosh-lite
 
     ```
-    cd ~/workspace/bosh-lite
     bosh deployment manifests/cf-manifest.yml
     bosh deploy
     # enter yes to confirm

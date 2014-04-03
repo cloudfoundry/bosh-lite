@@ -18,7 +18,7 @@ if [[ "$(echo "$BOSH_STATUS" | grep Name)" != *"$EXPECTED_DIRECTOR_NAME"* ]]; th
   exit 1
 fi
 
-temp_dir=${TMPDIR:-${BOSH_LITE_HOME}/tmp}/boshlite-$$.tmp
+temp_dir=$TMPDIR/boshlite-$$.tmp
 mkdir -p $temp_dir
 
 cp $BOSH_LITE_HOME/manifests/cf-stub-spiff.yml $temp_dir/cf-stub-with-uuid.yml
@@ -29,7 +29,7 @@ perl -pi -e "s/PLACEHOLDER-DIRECTOR-UUID/$DIRECTOR_UUID/g" $temp_dir/cf-stub-wit
 $CF_RELEASE_DIR/generate_deployment_manifest \
                                               warden \
                                               $temp_dir/cf-stub-with-uuid.yml \
-                                              $CF_RELEASE_DIR/templates/cf-minimal-dev.yml \
+					      $BOSH_LITE_HOME/manifests/cf-minimal-multi-az-dev.yml \
                                               $* > $BOSH_LITE_HOME/manifests/cf-manifest.yml
 
 rm -f $temp_dir/*

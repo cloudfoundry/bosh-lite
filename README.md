@@ -14,8 +14,10 @@ For all use cases, first prepare this project with `bundler` .
 
     ```
     $ vagrant -v
-    Vagrant 1.4.2
+    Vagrant 1.4.3
     ```
+
+    See [this blog](http://aliwahaj.blogspot.de/2014/01/installing-cloud-foundry-on-vagrant.html) for special instructures for Windows users of bosh-lite.
 
 1. Install Ruby + RubyGems + Bundler
 
@@ -47,7 +49,7 @@ Known to work with Fusion version 6.0.2 and vagrant plugin vagrant-vmware-fusion
 a license. 
 
     ```
-    vagrant plugin install --plugin-version 2.2.0 vagrant-vmware-fusion
+    vagrant plugin install vagrant-vmware-fusion
     vagrant plugin license vagrant-vmware-fusion license.lic
     ```
 
@@ -61,10 +63,11 @@ a license.
 1. Bosh target (login with admin/admin)
 
     ```
-    bosh target 192.168.50.4
+    $ bosh target 192.168.50.4
     Target set to `Bosh Lite Director'
+    $ bosh login
     Your username: admin
-    Enter password: admin
+    Enter password: *****
     Logged in as `admin'
     ```
 
@@ -86,10 +89,11 @@ a license.
 1. Bosh target (login with admin/admin)
 
     ```
-    bosh target 192.168.50.4
+    $ bosh target 192.168.50.4
     Target set to `Bosh Lite Director'
+    $ bosh login
     Your username: admin
-    Enter password: admin
+    Enter password: *****
     Logged in as `admin'
     ```
 
@@ -107,7 +111,7 @@ a license.
     vagrant plugin install vagrant-aws
     ```
 
-    Known to work for version: vagrant-aws 0.4.0
+    Known to work for version: vagrant-aws 0.4.1
 
 1. Add dummy AWS box
 
@@ -115,7 +119,7 @@ a license.
     vagrant box add dummy https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box
     ```
 
-1. Set environment variables called `BOSH_AWS_ACCESS_KEY_ID` and `BOSH_AWS_SECRET_ACCESS_KEY` with the appropriate values.  If you've followed along with other documentation such as [these steps to deploy Cloud Foundry on AWS](http://docs.cloudfoundry.com/docs/running/deploying-cf/ec2/index.html#deployment-env-prep), you may simply need to source your `bosh_environment` file.
+1. Set environment variables called `BOSH_AWS_ACCESS_KEY_ID` and `BOSH_AWS_SECRET_ACCESS_KEY` with the appropriate values.  If you've followed along with other documentation such as [these steps to deploy Cloud Foundry on AWS](http://docs.cloudfoundry.org/deploying/ec2/bootstrap-aws-vpc.html), you may simply need to source your `bosh_environment` file.
 1. Make sure the EC2 security group you are using in the `Vagrantfile` exists and allows inbound TCP traffic on ports 25555 (for the BOSH director), 22 (for SSH), 80/443 (for Cloud Controller), and 4443 (for Loggregator).
 1. Run Vagrant from the `aws` folder:
 
@@ -124,14 +128,17 @@ a license.
     vagrant up --provider=aws
     cd ..
     ```
+1. find out the public IP of the box you just launched. You can see this info at the end of `vagrant up` output. Another way is running `vagrant ssh-config` under `aws` folder.
+
 
 1. Bosh target (login with admin/admin)
 
     ```
-    bosh target <IP of the box>
+    $ bosh target <public_ip_of_the_box>
     Target set to `Bosh Lite Director'
+    $ bosh login
     Your username: admin
-    Enter password: admin
+    Enter password: *****
     Logged in as `admin'
     ```
 
@@ -147,6 +154,13 @@ sudo iptables -t nat -A PREROUTING -p tcp -d <internal IP of instance> --dport 4
 
 These rules are cleared on restart. They can be saved and configured to be reloaded on startup if so desired (granted the internal ip remains the same).
 
+## Restart the director
+
+Occasionally you need to restart the bosh-lite director to avoid https://github.com/cloudfoundry/bosh-lite/issues/82;(troubleshooting ...) so perhaps always run the following after booting up bosh-lite:
+
+```
+vagrant ssh -c "sudo sv restart director"
+```
 
 ## Upload Warden stemcell
 
@@ -168,7 +182,7 @@ NB: It is possible to do this in one command instead of two, but doing this in t
 
 Note: You can also use 'bosh public stemcells' to list and download the latest warden stemcell
 
-example:
+example (the versions you see will be different from these):
 ```
 $ bosh public stemcells 
 +---------------------------------------------+
@@ -190,11 +204,12 @@ $ bosh download public stemcell bosh-stemcell-24-warden-boshlite-ubuntu.tgz
 ## Deploy Cloud Foundry
 
 
-1.  Install [spiff](https://github.com/cloudfoundry-incubator/spiff).
-    ```
-    # command from http://spiff.cfapps.io
+1.  Install [spiff](https://github.com/cloudfoundry-incubator/spiff). Use the [latest 0.3 binary of spiff](https://github.com/cloudfoundry-incubator/spiff/releases/tag/v0.3) extract it and make sure that `spiff` is in your `$PATH`.
 
-    curl -s http://spiff.cfapps.io/install.sh | bash
+1. clone a copy of cf-release:
+    ```
+	cd ~/workspace
+	git clone https://github.com/cloudfoundry/cf-release
     ```
     **Note**: consider whether you have an older version of spiff in your path; replace the older version with the newer. 
     ```
@@ -211,7 +226,10 @@ $ bosh download public stemcell bosh-stemcell-24-warden-boshlite-ubuntu.tgz
     git checkout v149
     ````
 
-1.  Use the make_manifest_spiff script to create a cf manifest.  This step assumes you have cf-release checked out to ~/workspace.  It requires that cf-release is checked out the tag matching the final release you wish to deploy so tha the templates used by make_manifest_spiff match the code you are deploying.
+1.  Use the make_manifest_spiff script to create a cf manifest.  This step
+assumes you have cf-release checked out to ~/workspace [note that you can have
+it checked out to somewhere else, you just have to set the BOSH_RELEASES_DIR
+environment variable to something other than its default value of ~/workspace].  It requires that cf-release is checked out the tag matching the final release you wish to deploy so tha the templates used by make_manifest_spiff match the code you are deploying.
 
     make_manifest_spiff will target your bosh-lite director, find the uuid, create a manifest stub and run spiff to generate a manifest at manifests/cf-manifest.yml. (If this fails, try updating spiff)
 
@@ -248,12 +266,14 @@ $ bosh download public stemcell bosh-stemcell-24-warden-boshlite-ubuntu.tgz
     export VCAP_BVT_ADMIN_USER=admin
     export VCAP_BVT_ADMIN_USER_PASSWD=admin
     ```
+    If you do not want to use xip.io or are going to be offline, you can [try the custom DNS and offline instructions for OSX](docs/offline_dns.md).
 
     b.  Run yeti as normal from cf-release/src/tests.. e.g. (Make sure you are logged in via cf before running these commands)
 
     ```
+    bundle
     rake config:clear_bvt # clear the BVT from previous runs
-    bundle; bundle exec rake prepare; # create initial users/assets
+    bundle exec rake prepare; # create initial users/assets
     bundle exec rspec # run!
 
     ./warden_rspec # Run tests in parallel

@@ -8,6 +8,13 @@ git "/opt/warden" do
   action :sync
 end
 
+cookbook_file "/tmp/0001-replace-SNAT-with-MASQ.patch"
+
+execute "patch_warden" do
+  cwd "/opt/warden"
+  command "grep -q MASQ warden/root/linux/net.sh || git apply /tmp/0001-replace-SNAT-with-MASQ.patch"
+end
+
 %w(config rootfs containers stemcells).each do |dir|
   directory "/opt/warden/#{dir}" do
     owner 'vagrant'

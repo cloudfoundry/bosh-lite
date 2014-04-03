@@ -1,23 +1,26 @@
 VM_MEMORY = 6*1024
 VM_CORES = 4
+BOX_VERSION = 75
 
 Vagrant.configure('2') do |config|
   config.vm.hostname='mcf'
-  config.vm.box = 'mcf-ubuntu1204-build38'
+  config.vm.box = "mcf-ubuntu1204-build#{BOX_VERSION}"
   config.vm.network :private_network, ip: '192.168.50.4'
 
   config.vm.provider :virtualbox do |v, override|
-    override.vm.box_url = 'http://bosh-lite-build-artifacts.s3.amazonaws.com/mcf/38/boshlite-virtualbox-withcf-ubuntu1204.box'
+    override.vm.box_url = "http://bosh-lite-build-artifacts.s3.amazonaws.com/mcf/#{BOX_VERSION}/boshlite-virtualbox-withcf-ubuntu1204.box"
     v.customize ["modifyvm", :id, "--memory", VM_MEMORY]
     v.customize ["modifyvm", :id, "--cpus", VM_CORES]
   end
 
   config.vm.provider :vmware_fusion do |v, override|
-    override.vm.box_url = 'http://bosh-lite-build-artifacts.s3.amazonaws.com/mcf/38/boshlite-vmware-withcf-ubuntu1204.box'
+    override.vm.box_url = "http://bosh-lite-build-artifacts.s3.amazonaws.com/mcf/#{BOX_VERSION}/boshlite-vmware-withcf-ubuntu1204.box"
     v.vmx["numvcpus"] = VM_CORES
     v.vmx["memsize"] = VM_MEMORY
   end
 
-config.vm.provision :shell, :inline => "echo Please run bosh cck cf-warden to get Cloud Foundry deployment restored."
-
+  config.vm.provision :shell do |s|
+    s.inline = "echo $1"
+    s.args = ['Please wait a few minutes for BOSH to restore Cloud Foundry deployment. Run \'bosh vms cf-warden\' to see the status.']
+  end
 end

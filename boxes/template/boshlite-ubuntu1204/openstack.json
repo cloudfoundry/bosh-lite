@@ -1,0 +1,46 @@
+{
+  "variables": {
+    "build_number": "0"
+  },
+
+  "builders": [
+    {
+      "type": "openstack",
+      "image_name": "boshlite-{{user `build_number`}}",
+      "source_image" : "531f785b-8493-411d-8cb0-edb905cea306",
+      "region": "RegionOne",
+      "flavor": "3",
+      "ssh_username": "ubuntu"
+    }
+  ],
+  "provisioners": [{
+    "type": "shell",
+    "scripts": [
+      "script/vagrant.sh",
+      "script/bluebox_customize.sh"
+    ],
+    "override": {
+      "openstack": {
+        "execute_command": "echo 'packer'|{{.Vars}} sudo -E -S bash '{{.Path}}'"
+      }
+    }
+  },
+  {
+     "type": "chef-solo",
+     "cookbook_paths": ["../../../cookbooks", "../../../site-cookbooks"],
+     "run_list": ["bosh-lite::warden", "bosh-lite::bosh", "bosh-lite::bosh_cli"],
+     "json": { "boshlite": { "enable_compiled_package_cache": false } }
+  },
+  {
+    "type": "shell",
+    "scripts": [
+      "script/cleanup.sh"
+    ],
+    "override": {
+      "openstack": {
+        "execute_command": "echo 'packer'|{{.Vars}} sudo -E -S bash '{{.Path}}'"
+      }
+    }
+  }]
+ }
+

@@ -1,6 +1,6 @@
 VM_MEMORY = 6*1024
 VM_CORES = 4
-BOX_VERSION = 147
+BOX_VERSION = 186
 
 Vagrant.configure('2') do |config|
 

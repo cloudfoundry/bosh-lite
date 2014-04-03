@@ -5,7 +5,7 @@
   "builders": [
     {
       "vm_name": "boshlite-vmware-withcf-ubuntu1204",
-      "type": "vmware",
+      "type": "vmware-iso",
       "guest_os_type": "ubuntu-64",
       "headless": true,
       "http_directory": "http",
@@ -48,7 +48,7 @@
     },
     {
       "vm_name": "boshlite-virtualbox-withcf-ubuntu1204",
-      "type": "virtualbox",
+      "type": "virtualbox-iso",
       "guest_os_type": "Ubuntu_64",
       "headless": true,
       "http_directory": "http",
@@ -85,10 +85,10 @@
       "script/vmtools.sh"
     ],
     "override": {
-      "virtualbox": {
+      "virtualbox-iso": {
         "execute_command": "echo 'packer'|{{.Vars}} sudo -E -S bash '{{.Path}}'"
       },
-      "vmware": {
+      "vmware-iso": {
         "execute_command": "echo 'packer'|{{.Vars}} sudo -E -S bash '{{.Path}}'"
       }
     }
@@ -109,10 +109,10 @@
       "CF_VERSION={{user `cf_version`}}"
     ],
     "override": {
-      "virtualbox": {
+      "virtualbox-iso": {
         "execute_command": "echo 'packer'|{{.Vars}} sudo -E -S bash '{{.Path}}'"
       },
-      "vmware": {
+      "vmware-iso": {
         "execute_command": "echo 'packer'|{{.Vars}} sudo -E -S bash '{{.Path}}'"
       }
     }

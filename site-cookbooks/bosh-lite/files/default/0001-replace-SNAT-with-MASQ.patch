@@ -1,0 +1,31 @@
+From 932ed9f89c847a23ef19c131adc9f5e2ca5da81d Mon Sep 17 00:00:00 2001
+From: Gary Liu <garyliu@pivotallabs.com>
+Date: Fri, 14 Feb 2014 17:25:01 +0800
+Subject: [PATCH] replace SNAT with MASQ
+
+---
+ warden/root/linux/net.sh | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/warden/root/linux/net.sh b/warden/root/linux/net.sh
+index 423dc41..4f9474e 100755
+--- a/warden/root/linux/net.sh
++++ b/warden/root/linux/net.sh
+@@ -163,11 +163,11 @@ function setup_nat() {
+       --jump ${nat_postrouting_chain}
+ 
+   # Enable NAT for traffic coming from containers
+-  (iptables -t nat -S ${nat_postrouting_chain} | grep -q "\-j SNAT\b") ||
++  (iptables -t nat -S ${nat_postrouting_chain} | grep -q "\-j MASQUERADE\b") ||
+     iptables -t nat -A ${nat_postrouting_chain} \
+       --source ${POOL_NETWORK} \
+-      --jump SNAT \
+-      --to $(external_ip)
++      ! --destination ${POOL_NETWORK} \
++      --jump MASQUERADE
+ }
+ 
+ case "${1}" in
+-- 
+1.8.3.4 (Apple Git-47)
+

@@ -6,7 +6,9 @@ export STEMCELL_BUILD_NUMBER=${BUILD_NUMBER}
 
 echo $STEMCELL_BUILD_NUMBER
 
-./spec/ci_build.sh ci:build_local_stemcell[warden,ubuntu]
+bundle install
+
+./spec/ci_build.sh ci:build_local_stemcell[warden,ubuntu,ruby]
 
 mkdir output || true
 cp /mnt/stemcells/warden/boshlite/ubuntu/work/work/*.tgz ./output/

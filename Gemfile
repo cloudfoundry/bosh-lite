@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 ruby '1.9.3'
 
 gem 'librarian-chef'
-gem 'bosh_cli', '~>1.5.0.pre.0'
+gem 'bosh_cli'
 
 group :development, :test do
   gem 'rake'

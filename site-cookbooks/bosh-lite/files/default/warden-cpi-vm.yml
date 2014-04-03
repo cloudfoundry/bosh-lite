@@ -49,7 +49,7 @@ network:
   pool_start_address: 10.244.0.0
 
   # Pool this many /30 networks.
-  pool_size: 256
+  pool_size: 2048
 
   #disable release delay
   release_delay: -1

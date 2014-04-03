@@ -211,10 +211,6 @@ $ bosh download public stemcell bosh-stemcell-24-warden-boshlite-ubuntu.tgz
 	cd ~/workspace
 	git clone https://github.com/cloudfoundry/cf-release
     ```
-    **Note**: consider whether you have an older version of spiff in your path; replace the older version with the newer. 
-    ```
-    $ mv spiff /usr/local/bin/
-    ```
 
 1. Decide which final release of Cloud Foundry you wish to deploy, by looking at in the [releases directory of cf-release](https://github.com/cloudfoundry/cf-release/tree/master/releases).  At the time of this writing, cf-149 is the most recent.  We will use that as the example, but you are free to substitute any future release.
 
@@ -232,10 +228,9 @@ $ bosh download public stemcell bosh-stemcell-24-warden-boshlite-ubuntu.tgz
     bosh upload release releases/cf-149.yml
     ```
 
-1.  Use the make_manifest_spiff script to create a cf manifest.  This step
-assumes you have cf-release checked out to ~/workspace [note that you can have
-it checked out to somewhere else, you just have to set the BOSH_RELEASES_DIR
-environment variable to something other than its default value of ~/workspace].  It requires that cf-release is checked out the tag matching the final release you wish to deploy so tha the templates used by make_manifest_spiff match the code you are deploying.
+1.  Use the make_manifest_spiff script to create a cf manifest.  This step assumes you have cf-release checked out to ~/workspace [note that you can have it checked out to somewhere else, you just have to set the BOSH_RELEASES_DIR environment variable to something other than its default value of ~/workspace].  It requires that cf-release is checked out the tag matching the final release you wish to deploy so tha the templates used by make_manifest_spiff match the code you are deploying.
+  
+    **Note**: make sure you have the latest version of [spiff](https://github.com/cloudfoundry-incubator/spiff) in your path. 
 
     make_manifest_spiff will target your bosh-lite director, find the uuid, create a manifest stub and run spiff to generate a manifest at manifests/cf-manifest.yml. (If this fails, try updating spiff)
 

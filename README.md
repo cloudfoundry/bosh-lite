@@ -241,7 +241,7 @@ environment variable to something other than its default value of ~/workspace]. 
 1.  Deploy CF to bosh-lite
 
     ```
-    bosh deployment manifests/cf-manifest.yml
+    bosh deployment manifests/cf-manifest.yml # This will be done for you by make_manifest_spiff
     bosh deploy
     # enter yes to confirm
     ```

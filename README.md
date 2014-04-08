@@ -204,7 +204,7 @@ $ bosh download public stemcell bosh-stemcell-24-warden-boshlite-ubuntu.tgz
 ## Deploy Cloud Foundry
 
 
-1.  Install [spiff](https://github.com/cloudfoundry-incubator/spiff). Use the [latest 0.3 binary of spiff](https://github.com/cloudfoundry-incubator/spiff/releases/tag/v0.3) extract it and make sure that `spiff` is in your `$PATH`.
+1.  Install [spiff](https://github.com/cloudfoundry-incubator/spiff). Use the [latest 1.0 binary of spiff](https://github.com/cloudfoundry-incubator/spiff/releases/tag/v1.0) extract it and make sure that `spiff` is in your `$PATH`. (**NB**: to deploy pre-v165 releases you may instead need to use [spiff v0.3](https://github.com/cloudfoundry-incubator/spiff/releases/tag/v0.3))
 
 1. clone a copy of cf-release:
     ```
@@ -212,14 +212,14 @@ $ bosh download public stemcell bosh-stemcell-24-warden-boshlite-ubuntu.tgz
 	git clone https://github.com/cloudfoundry/cf-release
     ```
 
-1. Decide which final release of Cloud Foundry you wish to deploy, by looking at in the [releases directory of cf-release](https://github.com/cloudfoundry/cf-release/tree/master/releases).  At the time of this writing, cf-149 is the most recent.  We will use that as the example, but you are free to substitute any future release.
+1. Decide which final release of Cloud Foundry you wish to deploy, by looking at in the [releases directory of cf-release](https://github.com/cloudfoundry/cf-release/tree/master/releases).  At the time of this writing, cf-165 is the most recent.  We will use that as the example, but you are free to substitute any future release.
 
-1. Check out the desired revision of cf-release, (eg, 149)
+1. Check out the desired revision of cf-release, (eg, 165)
 
     ````
     cd ~/workspace/cf-release
     ./update
-    git checkout v149
+    git checkout v165
     ````
 
 1.  Use the make_manifest_spiff script to create a cf manifest.  This step
@@ -236,7 +236,7 @@ environment variable to something other than its default value of ~/workspace]. 
 
 1.  Upload final release
 
-Use the <version> that matches the tag. For c149 you would use: releases/cf-149.yml
+Use the <version> that matches the tag. For v165 you would use: releases/cf-165.yml
 
     ```
     cd ~/workspace/cf-release

@@ -226,12 +226,10 @@ $ bosh download public stemcell bosh-stemcell-24-warden-boshlite-ubuntu.tgz
     bosh upload release releases/cf-149.yml
     ```
 
-1.  Use the make_manifest_spiff script to create a cf manifest.  This step
-assumes you have cf-release checked out to ~/workspace [note that you can have
-it checked out to somewhere else, you just have to set the BOSH_RELEASES_DIR
-environment variable to something other than its default value of ~/workspace].  It requires that cf-release is checked out the tag matching the final release you wish to deploy so tha the templates used by make_manifest_spiff match the code you are deploying.
+1.  Use the `make_manifest_spiff` script to create a cf manifest.  This step assumes you have cf-release checked out in ~/workspace. If you have cf-release checked out to somewhere else, you have to update the `BOSH_RELEASES_DIR`
+environment variable.  The script also requires that cf-release is checked out with the tag matching the final release you wish to deploy so that the templates used by `make_manifest_spiff` match the code you are deploying.
 
-    make_manifest_spiff will target your bosh-lite director, find the uuid, create a manifest stub and run spiff to generate a manifest at manifests/cf-manifest.yml. (If this fails, try updating spiff)
+    `make_manifest_spiff` will target your bosh-lite director, find the uuid, create a manifest stub and run spiff to generate a manifest at manifests/cf-manifest.yml. If this fails, try updating spiff.
 
     ```
     cd ~/workspace/bosh-lite

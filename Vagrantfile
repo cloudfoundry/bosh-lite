@@ -20,4 +20,12 @@ Vagrant.configure('2') do |config|
     v.vmx["memsize"] = VM_MEMORY
   end
 
+  if ENV["LOCAL_PROVISION"]
+    config.vm.provision :chef_solo do |chef|
+      chef.cookbooks_path = ['./cookbooks', './site-cookbooks']
+      chef.log_level = :debug
+      chef.add_recipe 'bosh-lite::warden'
+      chef.add_recipe 'bosh-lite::bosh'
+    end
+  end
 end

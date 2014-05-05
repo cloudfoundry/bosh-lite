@@ -14,6 +14,7 @@ include_recipe 'nginx::repo'
   package package_name
 end
 
+include_recipe 'bosh-lite::nfs_server'
 include_recipe 'bosh-lite::rbenv'
 
 include_recipe 'runit'

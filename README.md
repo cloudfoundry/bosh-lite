@@ -171,16 +171,16 @@ vagrant ssh -c "sudo sv restart director"
 
 A stemcell is a VM template with an embedded BOSH Agent. BOSH Lite uses the Warden CPI, so we need to use the Warden Stemcell which will be the root file system for all Linux Containers created by the Warden CPI.
 
-1. Download latest Warden stemcell
+1. Download the latest Warden stemcell
 
     ```
-    wget http://bosh-jenkins-gems-warden.s3.amazonaws.com/stemcells/latest-bosh-stemcell-warden.tgz
+    wget https://bosh-jenkins-artifacts.s3.amazonaws.com/bosh-stemcell/warden/bosh-stemcell-53-warden-boshlite-ubuntu.tgz
     ```
 
 1. Upload the stemcell
 
     ```
-    bosh upload stemcell latest-bosh-stemcell-warden.tgz
+    bosh upload stemcell bosh-stemcell-53-warden-boshlite-ubuntu.tgz
     ```
 
 NOTE: It is possible to do this in one command instead of two, but doing this in two steps avoids having to download the stemcell again when you bring up a new BOSH Lite box.

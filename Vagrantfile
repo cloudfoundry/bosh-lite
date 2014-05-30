@@ -12,6 +12,7 @@ Vagrant.configure('2') do |config|
     override.vm.box_url = "http://bosh-lite-build-artifacts.s3.amazonaws.com/bosh-lite/#{BOX_VERSION}/boshlite-virtualbox-ubuntu1204.box"
     v.customize ["modifyvm", :id, "--memory", VM_MEMORY]
     v.customize ["modifyvm", :id, "--cpus", VM_CORES]
+    v.customize ["modifyvm", :id, "--ioapic", "on"]
   end
 
   config.vm.provider :vmware_fusion do |v, override|

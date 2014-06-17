@@ -1,0 +1,5 @@
+{
+  "pool_start_address": "10.245.0.0",
+  "director_ip": "192.168.50.5",
+  "box_name_prefix": "boshlite-second-instance"
+}

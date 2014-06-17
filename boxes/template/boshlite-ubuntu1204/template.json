@@ -1,4 +1,9 @@
 {
+  "variables": {
+    "pool_start_address": "10.244.0.0",
+    "director_ip": "192.168.50.4",
+    "box_name_prefix": "boshlite"
+  },
   "builders": [
     {
       "vm_name": "boshlite-vmware-ubuntu1204",
@@ -76,46 +81,58 @@
       ]
     }
   ],
-  "provisioners": [{
-    "type": "shell",
-    "scripts": [
-      "script/base.sh",
-      "script/vagrant.sh",
-      "script/vmtools.sh"
-    ],
-    "override": {
-      "virtualbox-iso": {
-        "execute_command": "echo 'packer'|{{.Vars}} sudo -E -S bash '{{.Path}}'"
-      },
-      "vmware-iso": {
-        "execute_command": "echo 'packer'|{{.Vars}} sudo -E -S bash '{{.Path}}'"
+  "provisioners": [
+    {
+      "type": "shell",
+      "scripts": [
+        "script/base.sh",
+        "script/vagrant.sh",
+        "script/vmtools.sh"
+      ],
+      "override": {
+        "virtualbox-iso": {
+          "execute_command": "echo 'packer'|{{.Vars}} sudo -E -S bash '{{.Path}}'"
+        },
+        "vmware-iso": {
+          "execute_command": "echo 'packer'|{{.Vars}} sudo -E -S bash '{{.Path}}'"
+        }
+      }
+    },
+    {
+      "type": "chef-solo",
+      "cookbook_paths": ["../../../cookbooks", "../../../site-cookbooks"],
+      "run_list": ["bosh-lite::warden", "bosh-lite::bosh"],
+      "json": {
+        "boshlite": {
+          "enable_compiled_package_cache": true,
+          "director_ip": "{{user `director_ip`}}"
+        },
+        "warden": {
+          "pool_start_address": "{{user `pool_start_address`}}"
+        }
+      }
+    },
+    {
+      "type": "shell",
+      "scripts": [
+        "script/cleanup.sh",
+        "script/zerodisk.sh"
+      ],
+      "override": {
+        "virtualbox-iso": {
+          "execute_command": "echo 'packer'|{{.Vars}} sudo -E -S bash '{{.Path}}'"
+        },
+        "vmware-iso": {
+          "execute_command": "echo 'packer'|{{.Vars}} sudo -E -S bash '{{.Path}}'"
+        }
       }
     }
-  },
-  {
-     "type": "chef-solo",
-     "cookbook_paths": ["../../../cookbooks", "../../../site-cookbooks"],
-     "run_list": ["bosh-lite::warden", "bosh-lite::bosh"],
-     "json": { "boshlite": { "enable_compiled_package_cache": true} }
-  },
-  {
-    "type": "shell",
-    "scripts": [
-      "script/cleanup.sh",
-      "script/zerodisk.sh"
-    ],
-    "override": {
-      "virtualbox-iso": {
-        "execute_command": "echo 'packer'|{{.Vars}} sudo -E -S bash '{{.Path}}'"
-      },
-      "vmware-iso": {
-        "execute_command": "echo 'packer'|{{.Vars}} sudo -E -S bash '{{.Path}}'"
-      }
+  ],
+  "post-processors": [
+    {
+      "type": "vagrant",
+      "keep_input_artifact": true,
+      "output": "../../{{.Provider}}/{{user `box_name_prefix`}}-{{.Provider}}-ubuntu1204.box"
     }
-  }],
-  "post-processors": [{
-    "type": "vagrant",
-    "keep_input_artifact": true,
-    "output": "../../{{.Provider}}/boshlite-{{.Provider}}-ubuntu1204.box"
-  }]
+  ]
 }

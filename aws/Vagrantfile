@@ -15,6 +15,8 @@ Vagrant.configure('2') do |config|
   # better error messages from Hash.fetch
   env = ENV.to_hash
 
+  associate_public_ip = ( env.fetch('BOSH_LITE_ASSOCIATE_PUBLIC_IP') =~ (/^(true|t|yes|y|1)$/i) ) if env.include?('BOSH_LITE_ASSOCIATE_PUBLIC_IP')
+
   config.vm.box = 'dummy'
   config.vm.box_url = 'https://github.com/mitchellh/vagrant-aws/blob/master/dummy.box?raw=true'
   config.vm.provider :aws do |aws, override|
@@ -37,12 +39,13 @@ Vagrant.configure('2') do |config|
     aws.security_groups = [   env.fetch('BOSH_LITE_SECURITY_GROUP', 'inception') ]
 
     aws.subnet_id =           env.fetch('BOSH_LITE_SUBNET_ID') if env.include?('BOSH_LITE_SUBNET_ID')
+    
+    aws.associate_public_ip = associate_public_ip
 
     override.ssh.username = 'ubuntu'
     override.ssh.private_key_path = env.fetch('BOSH_LITE_PRIVATE_KEY', '~/.ssh/id_rsa_bosh')
   end
-
-  endpoint = env.include?('BOSH_LITE_SUBNET_ID') ? 'local-ipv4' : 'public-ipv4'
+  endpoint = ( associate_public_ip  or not env.include?('BOSH_LITE_SUBNET_ID') ) ? 'public-ipv4' : 'local-ipv4'
 
   PORT_FORWARDING = <<-IP_SCRIPT
 ip=`curl -s http://169.254.169.254/latest/meta-data/#{endpoint}`

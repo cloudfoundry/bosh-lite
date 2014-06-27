@@ -176,13 +176,14 @@ These rules are cleared on restart. They can be saved and configured to be reloa
 
 |Name|Description|Default|
 |---|---|---|
-|BOSH_AWS_ACCESS_KEY_ID         |AWS access key ID                    | |
-|BOSH_AWS_SECRET_ACCESS_KEY     |AWS secret access key                | |
-|BOSH_LITE_KEYPAIR              |AWS keypair name                     |bosh|
-|BOSH_LITE_NAME                 |AWS instance name                    |Vagrant|
-|BOSH_LITE_SECURITY_GROUP       |AWS security group                   |inception|
-|BOSH_LITE_PRIVATE_KEY          |path to private key matching keypair |~/.ssh/id_rsa_bosh|
-|[VPC only] BOSH_LITE_SUBNET_ID |AWS VPC subnet ID                    | |
+|BOSH_AWS_ACCESS_KEY_ID                   |AWS access key ID                         | |
+|BOSH_AWS_SECRET_ACCESS_KEY               |AWS secret access key                     | |
+|BOSH_LITE_KEYPAIR                        |AWS keypair name                          |bosh|
+|BOSH_LITE_NAME                           |AWS instance name                         |Vagrant|
+|BOSH_LITE_SECURITY_GROUP                 |AWS security group                        |inception|
+|BOSH_LITE_PRIVATE_KEY                    |path to private key matching keypair      |~/.ssh/id_rsa_bosh|
+|[VPC only] BOSH_LITE_SUBNET_ID           |AWS VPC subnet ID                         | |
+|[VPC only] BOSH_LITE_ASSOCIATE_PUBLIC_IP |Associate a public ip to the VPC instance | false |
 
 ## Restart the Director
 

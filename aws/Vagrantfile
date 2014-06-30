@@ -15,7 +15,7 @@ Vagrant.configure('2') do |config|
   # better error messages from Hash.fetch
   env = ENV.to_hash
 
-  associate_public_ip = ( env.fetch('BOSH_LITE_ASSOCIATE_PUBLIC_IP') =~ (/^(true|t|yes|y|1)$/i) ) if env.include?('BOSH_LITE_ASSOCIATE_PUBLIC_IP')
+  associate_public_ip = ( ['true','1'].include? env.fetch('BOSH_LITE_ASSOCIATE_PUBLIC_IP').downcase ) if env.include?('BOSH_LITE_ASSOCIATE_PUBLIC_IP')
 
   config.vm.box = 'dummy'
   config.vm.box_url = 'https://github.com/mitchellh/vagrant-aws/blob/master/dummy.box?raw=true'

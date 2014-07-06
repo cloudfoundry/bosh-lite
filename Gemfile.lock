@@ -74,6 +74,10 @@ GEM
     ipaddress (0.8.0)
     json (1.8.1)
     json_pure (1.8.1)
+    knife-solo (0.4.2)
+      chef (>= 10.12)
+      erubis (~> 2.7.0)
+      net-ssh (>= 2.2.2, < 3.0)
     librarian (0.1.2)
       highline
       thor (~> 0.15)
@@ -148,6 +152,7 @@ PLATFORMS
 
 DEPENDENCIES
   bosh_cli
+  knife-solo
   librarian-chef
   rake
   rspec

@@ -21,6 +21,7 @@ For all use cases, first prepare this project with `bundler` .
     ```
 
     See [this blog](http://aliwahaj.blogspot.de/2014/01/installing-cloud-foundry-on-vagrant.html) for special instructions for Windows users of BOSH Lite.
+    This step can be skipped when using bare-metal.
 
 1. Install Ruby + RubyGems + Bundler.
 
@@ -30,7 +31,7 @@ For all use cases, first prepare this project with `bundler` .
     bundle
     ```
 
-### Install and Boot a Virtual Machine
+### Install and Boot a (Virtual) Machine
 
 Below are installation instructions for different Vagrant providers.
 
@@ -38,6 +39,7 @@ Below are installation instructions for different Vagrant providers.
 * Virtualbox
 * AWS
 
+Additionally there are instructions for installing bosh-lite on bare-metal.
 
 #### Using the VMWare Fusion Provider (preferred)
 
@@ -183,6 +185,30 @@ These rules are cleared on restart. They can be saved and configured to be reloa
 |BOSH_LITE_SECURITY_GROUP       |AWS security group                   |inception|
 |BOSH_LITE_PRIVATE_KEY          |path to private key matching keypair |~/.ssh/id_rsa_bosh|
 |[VPC only] BOSH_LITE_SUBNET_ID |AWS VPC subnet ID                    | |
+
+#### Using knife solo on a bare-metal Ubuntu box
+
+This guide assumes you have already installed `Ubuntu Server 12.04 LTS (64-bit)` on your box.
+And have correctly configured ssh access.
+
+1. Prepare you box by installing chef
+
+```
+STATIC_IP=<ip of your box>
+knife solo prepare root@$STATIC_IP
+```
+
+2. Edit the created node file
+
+```
+sed "s/STATIC_IP/$STATIC_IP/g" nodes/example_node.json > nodes/$STATIC_IP.json
+```
+
+3. Install bosh-lite
+
+```
+knife solo cook root@$STATIC_IP
+```
 
 ## Restart the Director
 

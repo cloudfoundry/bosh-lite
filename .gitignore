@@ -6,3 +6,7 @@ cookbooks
 pkg/
 manifests/cf-manifest.yml
 bosh-stemcell-*-warden-boshlite-*.tgz
+/cookbooks/
+/tmp/librarian/
+/nodes/*.json
+!/nodes/example_node.json

@@ -1,0 +1,10 @@
+{
+  "run_list": [
+      "bosh-lite::warden",
+      "bosh-lite::bosh"
+  ],
+  "boshlite": { 
+      "enable_compiled_package_cache": true,
+      "director_ip": STATIC_IP
+  }
+}

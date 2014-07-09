@@ -18,8 +18,7 @@ main() {
 }
 
 cloneCF() {
-  cd $WORKSPACE_DIR
-  git clone https://github.com/cf-release/cf-release.git
+  git clone https://github.com/cloudfoundry/cf-release.git
 }
 
 fetch_stemcell() {

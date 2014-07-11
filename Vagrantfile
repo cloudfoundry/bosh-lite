@@ -1,6 +1,6 @@
 VM_MEMORY = ENV.fetch("VM_MEMORY", 6*1024).to_i
 VM_CORES = ENV.fetch("VM_CORES", 4).to_i
-BOX_VERSION = 217
+BOX_VERSION = 235
 
 Vagrant.configure('2') do |config|
 

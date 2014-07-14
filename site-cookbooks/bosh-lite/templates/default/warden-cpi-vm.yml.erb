@@ -46,7 +46,7 @@ logging:
 
 network:
   # Use this /30 network as offset for the network pool.
-  pool_start_address: 10.244.0.0
+  pool_start_address: <%= @pool_start_address %>
 
   # Pool this many /30 networks.
   pool_size: 2048

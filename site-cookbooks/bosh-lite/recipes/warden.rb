@@ -23,10 +23,13 @@ end
   end
 end
 
-%w(warden-cpi-vm.yml).each do |config_file|
-  cookbook_file "/opt/warden/config/#{config_file}" do
-    owner 'vagrant'
-  end
+template "/opt/warden/config/warden-cpi-vm.yml" do
+  source 'warden-cpi-vm.yml.erb'
+  mode 0644
+  owner 'vagrant'
+  variables({
+              :pool_start_address => node[:warden][:pool_start_address],
+            })
 end
 
 execute "setup_warden" do

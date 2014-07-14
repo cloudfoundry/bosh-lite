@@ -18,7 +18,9 @@ main() {
 }
 
 cloneCF() {
-  git clone https://github.com/cloudfoundry/cf-release.git
+  if [ ! -d "$CF_DIR" ]; then
+    git clone https://github.com/cloudfoundry/cf-release.git $CF_DIR
+  fi
 }
 
 fetch_stemcell() {

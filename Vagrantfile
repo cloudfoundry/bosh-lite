@@ -9,7 +9,8 @@ Vagrant.configure('2') do |config|
   config.vm.network :private_network, ip: '192.168.50.4'
 
   config.vm.provider :virtualbox do |v, override|
-    override.vm.box_url = "http://bosh-lite-build-artifacts.s3.amazonaws.com/bosh-lite/#{BOX_VERSION}/boshlite-virtualbox-ubuntu1204.box"
+      #CDN in front of bosh-lite-build-artifacts.s3.amazonaws.com
+    override.vm.box_url = "http://d3a4sadvqj176z.cloudfront.net/bosh-lite/#{BOX_VERSION}/boshlite-virtualbox-ubuntu1204.box"
     v.customize ["modifyvm", :id, "--memory", VM_MEMORY]
     v.customize ["modifyvm", :id, "--cpus", VM_CORES]
     v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
@@ -17,7 +18,7 @@ Vagrant.configure('2') do |config|
   end
 
   config.vm.provider :vmware_fusion do |v, override|
-    override.vm.box_url = "http://bosh-lite-build-artifacts.s3.amazonaws.com/bosh-lite/#{BOX_VERSION}/boshlite-vmware-ubuntu1204.box"
+    override.vm.box_url = "http://d3a4sadvqj176z.cloudfront.net/bosh-lite/#{BOX_VERSION}/boshlite-vmware-ubuntu1204.box"
     v.vmx["numvcpus"] = VM_CORES
     v.vmx["memsize"] = VM_MEMORY
   end

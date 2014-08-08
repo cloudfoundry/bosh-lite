@@ -1,6 +1,7 @@
 {
   "variables": {
-    "cf_version": ""
+    "cf_version": "",
+    "warden_revision": "master"
   },
   "builders": [
     {
@@ -39,7 +40,7 @@
       "floppy_files": ["floppy/vmware9.compat_mm.patch", "floppy/vmware9.k3.8rc4.patch", "floppy/vmtools.inode.c.patch"],
       "ssh_wait_timeout": "10000s",
       "shutdown_command": "echo 'packer'|sudo -S shutdown -P now",
-      "disk_size": 40960,
+      "disk_size": 81920,
       "vmx_data": {
         "memsize": "5120",
         "numvcpus": "4",
@@ -70,7 +71,7 @@
       ],
       "ssh_wait_timeout": "10000s",
       "shutdown_command": "echo 'packer'|sudo -S shutdown -P now",
-      "disk_size": 40960,
+      "disk_size": 81920,
       "vboxmanage": [
         ["modifyvm", "{{.Name}}", "--memory", "5120"],
         ["modifyvm", "{{.Name}}", "--cpus", "4"]
@@ -96,7 +97,12 @@
   {
      "type": "chef-solo",
      "cookbook_paths": ["../../../cookbooks", "../../../site-cookbooks"],
-     "run_list": ["bosh-lite::warden", "bosh-lite::bosh", "bosh-lite::bosh_cli", "bosh-lite::repos"]
+     "run_list": ["bosh-lite::warden", "bosh-lite::bosh", "bosh-lite::bosh_cli", "bosh-lite::repos"],
+     "json": {
+       "warden": {
+         "revision": "{{user `warden_revision`}}"
+       }
+     }
   },
   {
     "type": "shell",

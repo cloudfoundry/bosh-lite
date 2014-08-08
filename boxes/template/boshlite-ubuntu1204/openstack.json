@@ -1,6 +1,7 @@
 {
   "variables": {
-    "build_number": "0"
+    "build_number": "0",
+    "warden_revision": "master"
   },
 
   "builders": [
@@ -29,7 +30,14 @@
      "type": "chef-solo",
      "cookbook_paths": ["../../../cookbooks", "../../../site-cookbooks"],
      "run_list": ["bosh-lite::warden", "bosh-lite::bosh", "bosh-lite::bosh_cli"],
-     "json": { "boshlite": { "enable_compiled_package_cache": false } }
+     "json": {
+       "boshlite": {
+         "enable_compiled_package_cache": false
+       },
+       "warden": {
+         "revision": "{{user `warden_revision`}}"
+       }
+     }
   },
   {
     "type": "shell",

@@ -1,8 +1,9 @@
 #!/bin/bash -l
 
 PATH=/opt/rbenv/shims:/opt/rbenv/bin:/opt/rbenv/bin/rbenv:/bin:/usr/bin
+mkdir -p /etc/sv/worker-1/env
 
 export QUEUE='*'
 
 exec 2>&1
-exec chpst -u <%= @options[:user] %> bosh-director-worker -i 1 -c /opt/bosh/config/director.yml
+exec chpst -e /etc/sv/worker-1/env -u <%= @options[:user] %> bosh-director-worker -i 1 -c /opt/bosh/config/director.yml

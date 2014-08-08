@@ -3,16 +3,19 @@ include_recipe 'bosh-lite::rbenv'
 
 %w{ debootstrap quota iptables }.each { |package_name| package package_name }
 
-git "/opt/warden" do
-  repository "git://github.com/cloudfoundry/warden.git"
+node.default[:warden][:revision] = 'master'
+
+git '/opt/warden' do
+  repository 'git://github.com/cloudfoundry/warden.git'
+  revision node[:warden][:revision]
   action :sync
 end
 
-cookbook_file "/tmp/0001-replace-SNAT-with-MASQ.patch"
+cookbook_file '/tmp/0001-replace-SNAT-with-MASQ.patch'
 
-execute "patch_warden" do
-  cwd "/opt/warden"
-  command "grep -q MASQ warden/root/linux/net.sh || git apply /tmp/0001-replace-SNAT-with-MASQ.patch"
+execute 'patch_warden' do
+  cwd '/opt/warden'
+  command 'grep -q MASQ warden/root/linux/net.sh || git apply /tmp/0001-replace-SNAT-with-MASQ.patch'
 end
 
 %w(config rootfs containers stemcells).each do |dir|
@@ -29,9 +32,9 @@ end
   end
 end
 
-execute "setup_warden" do
-  cwd "/opt/warden/warden"
-  command "/opt/rbenv/shims/bundle install && /opt/rbenv/shims/bundle exec rake setup:bin[/opt/warden/config/warden-cpi-vm.yml]"
+execute 'setup_warden' do
+  cwd '/opt/warden/warden'
+  command '/opt/rbenv/shims/bundle install && /opt/rbenv/shims/bundle exec rake setup:bin[/opt/warden/config/warden-cpi-vm.yml]'
   action :run
 end
 

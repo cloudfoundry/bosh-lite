@@ -36,7 +36,7 @@
       "floppy_files": ["floppy/vmware9.compat_mm.patch", "floppy/vmware9.k3.8rc4.patch", "floppy/vmtools.inode.c.patch"],
       "ssh_wait_timeout": "10000s",
       "shutdown_command": "echo 'packer'|sudo -S shutdown -P now",
-      "disk_size": 40960,
+      "disk_size": 81920,
       "vmx_data": {
         "memsize": "2048",
         "numvcpus": "4",
@@ -69,13 +69,16 @@
       ],
       "ssh_wait_timeout": "10000s",
       "shutdown_command": "echo 'packer'|sudo -S shutdown -P now",
-      "disk_size": 40960,
+      "disk_size": 81920,
       "vboxmanage": [
         ["modifyvm", "{{.Name}}", "--memory", "2048"],
         ["modifyvm", "{{.Name}}", "--cpus", "4"]
       ]
     }
   ],
+  "variables": {
+    "warden_revision": "master"
+  },
   "provisioners": [{
     "type": "shell",
     "scripts": [
@@ -96,7 +99,14 @@
      "type": "chef-solo",
      "cookbook_paths": ["../../../cookbooks", "../../../site-cookbooks"],
      "run_list": ["bosh-lite::warden", "bosh-lite::bosh"],
-     "json": { "boshlite": { "enable_compiled_package_cache": true} }
+     "json": {
+       "boshlite": {
+         "enable_compiled_package_cache": true
+       },
+       "warden": {
+         "revision": "{{user `warden_revision`}}"
+       }
+     }
   },
   {
     "type": "shell",

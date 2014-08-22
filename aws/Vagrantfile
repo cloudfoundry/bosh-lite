@@ -1,10 +1,10 @@
 
 def tags_from_environment(env)
   values = [env.fetch('BOSH_LITE_NAME', 'Vagrant')]
-  values.concat env.fetch('BOSH_LITE_TAG_VALUES', '').chomp.split(', ')
+  values.concat env.fetch('BOSH_LITE_TAG_VALUES', '').split(',').map(&:strip).reject(&:empty?)
 
   keys = ['Name']
-  keys.concat env.fetch('BOSH_LITE_TAG_KEYS', '').chomp.split(', ')
+  keys.concat env.fetch('BOSH_LITE_TAG_KEYS', '').split(',').map(&:strip).reject(&:empty?)
 
   raise 'Please provide the same number of keys and values!' if keys.length != values.length
 
@@ -37,6 +37,8 @@ Vagrant.configure('2') do |config|
     aws.security_groups = [   env.fetch('BOSH_LITE_SECURITY_GROUP', 'inception') ]
 
     aws.subnet_id =           env.fetch('BOSH_LITE_SUBNET_ID') if env.include?('BOSH_LITE_SUBNET_ID')
+
+    aws.private_ip_address =  env.fetch('BOSH_LITE_PRIVATE_IP') if env.include?('BOSH_LITE_PRIVATE_IP')
 
     override.ssh.username = 'ubuntu'
     override.ssh.private_key_path = env.fetch('BOSH_LITE_PRIVATE_KEY', '~/.ssh/id_rsa_bosh')

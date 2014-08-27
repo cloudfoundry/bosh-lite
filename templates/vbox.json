@@ -5,9 +5,9 @@
   "builders": [{
     "type": "virtualbox-iso",
 
-    "iso_url": "http://releases.ubuntu.com/14.04/ubuntu-14.04-server-amd64.iso",
-    "iso_checksum": "4d94f6111b8fe47da94396180ce499d8c0bb44f3",
-    "iso_checksum_type": "sha1",
+    "iso_url": "http://releases.ubuntu.com/14.04/ubuntu-14.04.1-server-amd64.iso",
+    "iso_checksum": "946a6077af6f5f95a51f82fdc44051c7aa19f9cfc5f737954845a6050543d7c2",
+    "iso_checksum_type": "sha256",
 
     "guest_os_type": "Ubuntu_64",
     "guest_additions_path": "/home/vagrant/VBoxGuestAdditions.iso",

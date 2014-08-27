@@ -7,7 +7,7 @@ Binaries for creating VirtualBox, VMWare Fusion, and Amazon EC2 boxes are provid
 Binary           | Host Environment
 ---------------- | ----------------
 bin/build-vbox   | VirtualBox
-bin/build-fusion | VMWare Fusion
+bin/build-vmware | VMware Fusion
 bin/build-aws    | Amazon EC2
 
 Each binary takes a required set of arguments:

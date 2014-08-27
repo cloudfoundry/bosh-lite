@@ -1,0 +1,37 @@
+#!/bin/bash
+
+BOSH_RELEASE_VERSION=$1
+BOSH_RELEASE_BUILD_NUMBER=$2
+WARDEN_RELEASE_VERSION=$3
+BUILD_NUMBER=$4
+
+function valid_arguments() {
+  [ -n "$BOSH_RELEASE_VERSION" -a -n "$BOSH_RELEASE_BUILD_NUMBER" -a -n "$WARDEN_RELEASE_VERSION" ]
+}
+
+function packer_build() {
+  template_path=$(dirname $0)/../templates/vmware.json
+  args=""
+  if [ -n "$BUILD_NUMBER" ]; then
+    args="$args -var 'build_number=$BUILD_NUMBER'"
+  fi
+
+  rm -rf $(dirname $0)/../output-vmware-iso
+
+  sh -c "packer build $template_path $args"
+}
+
+function main() {
+  if valid_arguments; then
+    $(dirname $0)/render_bosh_lite_manifest $BOSH_RELEASE_VERSION $BOSH_RELEASE_BUILD_NUMBER $WARDEN_RELEASE_VERSION
+    packer_config_path=$($(dirname $0)/fetch_packer_bosh)
+    export PACKER_CONFIG=$packer_config_path
+    packer_build
+  else
+    echo "usage: $0 <bosh_release_version> <bosh_release_build_number> <warden_release_version> [<build_number>]"
+    echo "example: $0 100 2690 6 2"
+    exit 1
+  fi
+}
+
+main

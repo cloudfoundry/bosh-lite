@@ -1,0 +1,95 @@
+{
+  "variables": {
+    "build_number": "0"
+  },
+  "builders": [{
+    "type": "vmware-iso",
+
+    "iso_url": "http://releases.ubuntu.com/14.04/ubuntu-14.04-server-amd64.iso",
+    "iso_checksum": "4d94f6111b8fe47da94396180ce499d8c0bb44f3",
+    "iso_checksum_type": "sha1",
+
+    "guest_os_type": "ubuntu-64",
+    "tools_upload_flavor": "linux",
+
+    "headless": "true",
+
+    "boot_wait": "10s",
+    "boot_command": [
+      "<esc><wait>",
+      "<esc><wait>",
+      "<enter><wait>",
+      "/install/vmlinuz<wait>",
+      " auto<wait>",
+      " console-setup/ask_detect=false<wait>",
+      " console-setup/layoutcode=us<wait>",
+      " console-setup/modelcode=pc105<wait>",
+      " debconf/frontend=noninteractive<wait>",
+      " debian-installer=en_US<wait>",
+      " fb=false<wait>",
+      " initrd=/install/initrd.gz<wait>",
+      " kbd-chooser/method=us<wait>",
+      " keyboard-configuration/layout=USA<wait>",
+      " keyboard-configuration/variant=USA<wait>",
+      " locale=en_US<wait>",
+      " netcfg/get_domain=vm<wait>",
+      " netcfg/get_hostname=ubuntu<wait>",
+      " noapic<wait>",
+      " nomodeset<wait>",
+      " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg<wait>",
+      " -- <wait>",
+      "<enter><wait>"
+    ],
+
+    "http_directory": "http",
+
+    "ssh_username": "vagrant",
+    "ssh_password": "vagrant",
+    "ssh_wait_timeout": "60m",
+
+    "disk_size": 80000,
+
+    "shutdown_command": "echo 'vagrant' | sudo -S shutdown -P now",
+
+    "vmx_data": {
+      "memsize": "1024",
+      "numvcpus": "1",
+      "cpuid.coresPerSocket": "1"
+    }
+  }],
+
+  "provisioners": [{
+    "type": "shell",
+    "execute_command": "echo 'vagrant' | {{ .Vars }} sudo -S -E {{ .Path }}",
+    "scripts": [
+      "scripts/update-trusty-kernel.sh",
+      "scripts/vmware-tools-additions.sh",
+      "scripts/admin-sudoers.sh"
+    ]
+  },{
+    "type": "shell",
+    "scripts": [ "scripts/vagrant-pub-key.sh" ]
+  },{
+    "type": "shell",
+    "inline": "echo 'vagrant' | sudo -S usermod -a -G admin vagrant"
+  },{
+    "type": "packer-bosh",
+    "assets_dir": "packer-bosh/assets",
+    "manifest_path": "bosh_lite_manifest.yml",
+    "ssh_password": "vagrant"
+  },{
+    "type": "shell",
+    "execute_command": "echo 'vagrant' | {{ .Vars }} sudo -S -E {{ .Path }}",
+    "remote_path": "/opt/bosh-provisioner/packer-shell.sh",
+    "scripts": [
+      "scripts/clean-up.sh",
+      "scripts/shrink-disk.sh"
+    ]
+  }],
+
+  "post-processors": [{
+    "type": "vagrant",
+    "keep_input_artifact": true,
+    "output": "bosh-lite-{{ .Provider }}-ubuntu-14-04-{{user `build_number`}}.box"
+  }]
+}

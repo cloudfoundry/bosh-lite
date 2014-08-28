@@ -12,8 +12,15 @@ BOSH_LITE_IP=$(cat "${BOSH_LITE_DIR}/Vagrantfile" | awk -F"'" '/private_network/
 main() {
   fetch_stemcell
   upload_stemcell
+  cloneCF
   build_manifest
   deploy_release
+}
+
+cloneCF() {
+  if [ ! -d "$CF_DIR" ]; then
+    git clone https://github.com/cloudfoundry/cf-release.git $CF_DIR
+  fi
 }
 
 fetch_stemcell() {

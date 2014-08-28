@@ -3,15 +3,14 @@
     "build_number": "0"
   },
   "builders": [{
-    "type": "virtualbox-iso",
+    "type": "vmware-iso",
 
     "iso_url": "http://releases.ubuntu.com/14.04/ubuntu-14.04.1-server-amd64.iso",
     "iso_checksum": "946a6077af6f5f95a51f82fdc44051c7aa19f9cfc5f737954845a6050543d7c2",
     "iso_checksum_type": "sha256",
 
-    "guest_os_type": "Ubuntu_64",
-    "guest_additions_path": "/home/vagrant/VBoxGuestAdditions.iso",
-    "virtualbox_version_file": ".vbox_version",
+    "guest_os_type": "ubuntu-64",
+    "tools_upload_flavor": "linux",
 
     "headless": "true",
 
@@ -52,10 +51,11 @@
 
     "shutdown_command": "echo 'vagrant' | sudo -S shutdown -P now",
 
-    "vboxmanage": [
-      [ "modifyvm", "{{ .Name }}", "--memory", "1024" ],
-      [ "modifyvm", "{{ .Name }}", "--cpus", "1" ]
-    ]
+    "vmx_data": {
+      "memsize": "1024",
+      "numvcpus": "1",
+      "cpuid.coresPerSocket": "1"
+    }
   }],
 
   "provisioners": [{
@@ -63,7 +63,7 @@
     "execute_command": "echo 'vagrant' | {{ .Vars }} sudo -S -E {{ .Path }}",
     "scripts": [
       "scripts/update-trusty-kernel.sh",
-      "scripts/vbox-guest-additions.sh",
+      "scripts/vmware-tools-additions.sh",
       "scripts/kernel-cleanup.sh",
       "scripts/admin-sudoers.sh"
     ]

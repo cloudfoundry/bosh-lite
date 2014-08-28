@@ -6,6 +6,7 @@ manifests/cf-manifest.yml
 bosh_lite_manifest.yml
 
 /output-virtualbox-iso/
+/output-vmware-iso/
 /packer_cache/
 /pkg/
 /tmp/

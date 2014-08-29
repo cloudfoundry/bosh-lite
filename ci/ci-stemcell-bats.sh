@@ -7,7 +7,7 @@ CUD=$(pwd)
 cleanup()
 {
   cd $CUD/bosh-lite
-  vagrant destroy local -f
+  vagrant destroy -f
 }
 
 trap cleanup EXIT

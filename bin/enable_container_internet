@@ -1,6 +1,6 @@
 #!/bin/bash
 
-vagrant ssh local -c '
+vagrant ssh -c '
 dns_server=(`grep -Po "(?<=nameserver ).*" /etc/resolv.conf`)
 sudo iptables -t nat -F warden-postrouting
 sudo iptables -t nat -A warden-postrouting -s 10.244.0.0/19 ! -d 10.244.0.0/19  -j MASQUERADE

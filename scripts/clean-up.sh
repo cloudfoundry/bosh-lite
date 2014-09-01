@@ -24,5 +24,21 @@ if [ -d "/var/lib/dhcp" ]; then
 	rm /var/lib/dhcp/*
 fi
 
+echo "Cleaning up apt packages"
 apt-get -y autoremove --purge
 apt-get -y clean
+
+echo "Cleaning up apt repository cache"
+find /var/lib/apt/lists -type f | xargs rm -f
+
+echo "Cleaning up dpkg backup files"
+find /var/cache/debconf -type f -name '*-old' | xargs rm -f
+
+echo "Cleaning up old logs"
+find /var/log /var/vcap/bosh/log /var/vcap/sys/log -type f | xargs rm -f
+
+echo "Cleaning up locales"
+find /usr/share/locale -maxdepth 1 -mindepth 1 -not -name 'en*' | xargs rm -rf
+
+echo "Cleaning up /usr/share/doc"
+rm -rf /usr/share/doc/*

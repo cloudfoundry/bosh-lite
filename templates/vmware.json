@@ -4,6 +4,7 @@
   },
   "builders": [{
     "type": "vmware-iso",
+    "vm_name": "bosh-lite-ubuntu-trusty",
 
     "iso_url": "http://releases.ubuntu.com/14.04/ubuntu-14.04-server-amd64.iso",
     "iso_checksum": "4d94f6111b8fe47da94396180ce499d8c0bb44f3",
@@ -59,6 +60,7 @@
     "type": "shell",
     "execute_command": "echo 'vagrant'|{{.Vars}} sudo -E -S bash '{{.Path}}'",
     "scripts": [
+      "scripts/quiet-tty-warning.sh",
       "scripts/update-trusty-kernel.sh",
       "scripts/vmware-tools.sh",
       "scripts/kernel-cleanup.sh",
@@ -88,6 +90,7 @@
   "post-processors": [{
     "type": "vagrant",
     "keep_input_artifact": true,
+    "vagrantfile_template": "templates/vagrant-local.tpl",
     "output": "bosh-lite-{{ .Provider }}-ubuntu-trusty-{{user `build_number`}}.box"
   }]
 }

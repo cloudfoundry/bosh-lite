@@ -1,13 +1,14 @@
 {
   "variables": {
-    "base_ami": "ami-d2ff23ba",
+    "base_ami": "ami-acff23c4",
     "region": "us-east-1",
     "build_number": "0"
   },
   "builders": [{
     "type": "amazon-ebs",
     "ami_name": "boshlite-{{user `build_number`}}",
-    "instance_type": "m1.large",
+    "ami_virtualization_type": "hvm",
+    "instance_type": "t2.micro",
     "region": "{{user `region`}}",
     "source_ami":  "{{user `base_ami`}}",
     "ssh_username": "ubuntu",
@@ -20,8 +21,10 @@
     "type": "shell",
     "execute_command": "echo 'vagrant' | {{ .Vars }} sudo -S -E {{ .Path }}",
     "scripts": [
+      "scripts/quiet-tty-warning.sh",
       "scripts/update-sources-list.sh",
       "scripts/update-trusty-kernel.sh",
+      "scripts/kernel-cleanup.sh",
       "scripts/admin-sudoers.sh"
     ]
   },{
@@ -50,6 +53,7 @@
   "post-processors": [{
     "type": "vagrant",
     "keep_input_artifact": true,
+    "vagrantfile_template": "templates/vagrant-aws.tpl",
     "output": "bosh-lite-{{ .Provider }}-ubuntu-trusty-{{user `build_number`}}.box"
   }]
 }

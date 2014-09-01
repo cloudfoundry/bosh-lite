@@ -12,18 +12,18 @@ export TMPDIR=$CUD
 cleanup()
 {
   cd $CUD
-  vagrant destroy local -f
+  vagrant destroy -f
 }
 
 trap cleanup EXIT
 
 echo $CANDIDATE_BUILD_NUMBER
 
-vagrant destroy local -f
+vagrant destroy -f
 rm -rf /var/lib/jenkins/.bosh_cache/* || true
 
 vagrant box add bosh-lite-virtualbox-ubuntu-trusty-${CANDIDATE_BUILD_NUMBER}.box --name bosh-lite-ubuntu-trusty --force
-vagrant up local --provider=virtualbox
+vagrant up --provider=virtualbox
 
 ./bin/add-route || true
 

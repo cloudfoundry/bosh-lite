@@ -9,7 +9,6 @@ BOSH_LITE_DIR="${WORKSPACE_DIR}/bosh-lite"
 CF_DIR="${WORKSPACE_DIR}/cf-release"
 
 main() {
-  set -e
   fetch_stemcell
   upload_stemcell
   build_manifest
@@ -17,7 +16,6 @@ main() {
 }
 
 fetch_stemcell() {
-  set -e
   if [[ ! -e $STEMCELL_FILE ]]
   then
     curl --progress-bar "${STEMCELL_SOURCE}/${STEMCELL_FILE}" > "$STEMCELL_FILE"
@@ -25,14 +23,12 @@ fetch_stemcell() {
 }
 
 upload_stemcell() {
-  set -e
   ip=$(bosh_lite_ip)
   bosh -n target $ip
   bosh -n -u admin -p admin upload stemcell --skip-if-exists $STEMCELL_FILE
 }
 
 build_manifest() {
-  set -e
   cd $CF_DIR
   ./update
 
@@ -42,27 +38,23 @@ build_manifest() {
 }
 
 deploy_release() {
-  set -e
   MOST_RECENT_CF_RELEASE=$(find ${CF_DIR}/releases -regex ".*cf-[0-9]*.yml" | sort | tail -n 1)
   bosh -n -u admin -p admin upload release --skip-if-exists $MOST_RECENT_CF_RELEASE
   bosh -n -u admin -p admin deploy
 }
 
 get_ip_from_vagrant_ssh_config() {
-  set -e
   config=$(vagrant ssh-config)
   ip=$(echo "$config" | grep HostName | awk '{print $2}')
   echo $ip
 }
 
 get_ip_from_vm_ifconfig() {
-  set -e
   config=$(vagrant ssh -c ifconfig 2>/dev/null)
   echo $(echo "$config" | grep addr:192 | awk '{print $2}' | cut -d: -f2)
 }
 
 bosh_lite_ip() {
-  set -e
   ip=$(get_ip_from_vagrant_ssh_config)
   # Local VMs show up as 127.0.0.1 in ssh-config so we need to find their IP
   # elsewhere

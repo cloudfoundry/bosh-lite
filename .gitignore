@@ -2,6 +2,8 @@
 .vagrant
 *.box
 
+.envrc
+
 manifests/cf-manifest.yml
 bosh_lite_manifest.yml
 

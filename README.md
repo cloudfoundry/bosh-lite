@@ -66,7 +66,7 @@ Installation instructions for different Vagrant providers:
 
     ```
     # if behind a proxy, exclude this IP by setting no_proxy (xip.io is introduced later)
-    $ export no_proxy=192.168.50.4,xip.io
+    $ export no_proxy=192.168.50.4.xip.io
 
     $ bosh target 192.168.50.4 lite
     Target set to `Bosh Lite Director'
@@ -103,6 +103,7 @@ The local VMs (virtualbox, vmware providers) will be accessible at `192.168.50.4
 * [bosh cck documentation](docs/bosh-cck.md) for restoring deployments after VM reboot
 * [bosh ssh documentation](docs/bosh-ssh.md) for SSH into deployment jobs
 * [Offline documentation](docs/offline-dns.md) to configure BOSH lite firewall rules
+* [xip.io](http://xip.io) to access local ip via DNS
 
 ## Troubleshooting
 

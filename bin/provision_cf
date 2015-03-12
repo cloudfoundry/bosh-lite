@@ -18,7 +18,8 @@ main() {
 fetch_stemcell() {
   if [[ ! -e $STEMCELL_FILE ]]
   then
-    curl --progress-bar "${STEMCELL_SOURCE}/${STEMCELL_FILE}" > "$STEMCELL_FILE"
+    curl --continue-at - --progress-bar "${STEMCELL_SOURCE}/${STEMCELL_FILE}" -o "$STEMCELL_FILE.in_progress"
+    mv "$STEMCELL_FILE.in_progress" "$STEMCELL_FILE"
   fi
 }
 

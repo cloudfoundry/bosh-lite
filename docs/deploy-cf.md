@@ -9,6 +9,8 @@
     ```
     cd ~/workspace
     git clone https://github.com/cloudfoundry/cf-release
+    cd cf-release
+    ./update
     ```
 
 ### Single command deploy
@@ -73,8 +75,10 @@ $ bosh public stemcells
  `make_manifest_spiff` will target your BOSH Lite Director, find the UUID, create a manifest stub and run spiff to generate a manifest at manifests/cf-manifest.yml. If this fails, try updating Spiff.
 
  ```
- cd ~/workspace/bosh-lite
- ./bin/make_manifest_spiff
+ cd ~/workspace/cf-release
+ git checkout <version>  #version should be same as the release version you uploaded
+ cd ~/workspace/cf-release/bosh-lite
+ ./make_manifest
  ```
 
  If you want to change the jobs properties for this bosh-lite deployment, e.g. number of nats servers, you can change it in the template located under cf-release/templates/cf-infrastructure-warden.yml.

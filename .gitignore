@@ -3,6 +3,7 @@
 *.box
 
 manifests/cf-manifest.yml
+manifests/custom-stemcell-stub.yml
 bosh_lite_manifest.yml
 
 latest-bosh-stemcell-warden.*

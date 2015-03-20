@@ -1,24 +1,63 @@
 #!/usr/bin/env bash
 
-set -xe
+set -e
 
-STEMCELL_SOURCE=http://bosh-jenkins-artifacts.s3.amazonaws.com/bosh-stemcell/warden
-STEMCELL_FILE=latest-bosh-stemcell-warden.tgz
+STEMCELL_SOURCE=http://bosh-jenkins-artifacts.s3.amazonaws.com/bosh-stemcell/warden/latest-bosh-stemcell-warden.tgz
+STEMCELL_OVERRIDDEN=F
 WORKSPACE_DIR="$(cd $(dirname ${BASH_SOURCE[0]})/../../ && pwd)"
 BOSH_LITE_DIR="${WORKSPACE_DIR}/bosh-lite"
 CF_DIR="${WORKSPACE_DIR}/cf-release"
 
 main() {
+  parse_args "$@"
+  set -x
   fetch_stemcell
   upload_stemcell
   build_manifest
   deploy_release
 }
 
+usage() {
+  echo "USAGE: $(basename $0) [-h] [-s <stemcell_url>]"
+  echo
+  echo "Where: -s <stemcell_url> specifies a url from which to download a stemcell."
+  echo "                         (defaults to '${DEFAULT_STEMCELL_SOURCE}')"
+  echo
+  echo "       -h                shows this help"
+  echo
+  exit 1
+}
+
+parse_args() {
+  while getopts :s: option ; do
+    case $option in
+      s)
+        STEMCELL_SOURCE="$OPTARG"
+        STEMCELL_OVERRIDDEN=T
+        ;;
+      ?) # -h caught here
+        usage
+        ;;
+    esac
+  done
+  shift $((OPTIND-1))
+
+  STEMCELL_FILE=$(basename "${STEMCELL_SOURCE}")
+}
+
 fetch_stemcell() {
   if [[ ! -e $STEMCELL_FILE ]]
   then
-    curl --progress-bar "${STEMCELL_SOURCE}/${STEMCELL_FILE}" > "$STEMCELL_FILE"
+    curl --progress-bar "${STEMCELL_SOURCE}" > "$STEMCELL_FILE"
+  else
+    set +x
+    latest_size=`curl -sI https://bosh-jenkins-artifacts.s3.amazonaws.com/bosh-stemcell/warden/latest-bosh-stemcell-warden.tgz | sed -n -e 's/^Content-Length: \([0-9]*\)/\1/p' | tr -d '\n\r '`
+    existing_size=`wc -c < $STEMCELL_FILE | tr -d '\n\r '`
+    if [ $latest_size -ne $existing_size ]
+    then
+      echo -e "\n** WARNING ** current stemcell does not match $STEMCELL_SOURCE.\nIf you wan't the latest stemcell, delete $STEMCELL_FILE and run this script again'\n"
+    fi
+    set -x
   fi
 }
 
@@ -34,7 +73,21 @@ build_manifest() {
 
   cd $BOSH_LITE_DIR
   export CF_RELEASE_DIR=$CF_DIR
-  ./bin/make_manifest_spiff
+
+  if [[ "${STEMCELL_OVERRIDDEN}" == "T" ]] ; then
+    spec=$(tar -zxf ${STEMCELL_FILE} -O stemcell.MF)
+    name=$(echo "$spec" | grep "^name:" | cut -d: -f2 | tr -d " '")
+    version=$(echo "$spec" | grep "^version:" | cut -d: -f2 | tr -d " '")
+    cat > manifests/custom-stemcell-stub.yml <<EOF
+meta:
+  stemcell:
+    name: ${name}
+    version: ${version}
+EOF
+    ./bin/make_manifest_spiff manifests/custom-stemcell-stub.yml
+  else
+    ./bin/make_manifest_spiff
+  fi
 }
 
 deploy_release() {
@@ -64,4 +117,4 @@ bosh_lite_ip() {
   echo $ip
 }
 
-main
+main "$@"

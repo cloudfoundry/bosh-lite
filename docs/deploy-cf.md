@@ -37,35 +37,17 @@ Note: This process is an alternative to the manual steps below to deploy the lat
  Download latest Warden stemcell:
 
  ```
- wget http://bosh-jenkins-artifacts.s3.amazonaws.com/bosh-stemcell/warden/latest-bosh-stemcell-warden.tgz
+ curl -L -J -O https://bosh.io/d/stemcells/bosh-warden-boshlite-ubuntu-trusty-go_agent
  ```
 
  Upload the stemcell:
 
  ```
- bosh upload stemcell latest-bosh-stemcell-warden.tgz
+ bosh upload stemcell bosh-warden-boshlite-ubuntu-trusty-go_agent
  ```
 
  NOTE: It is possible to do this in one command instead of two, but doing this in two steps avoids having to download the stemcell again when you bring up a new BOSH Lite box.
 
- You can also use 'bosh public stemcells' to list and download the latest Warden stemcell
-
- Example (the versions you see will be different from these):
-
- ```
-$ bosh public stemcells
-+-------------------------------------------------------------+
-| Name                                                        |
-+-------------------------------------------------------------+
-| ...                                                         |
-| bosh-stemcell-21-warden-boshlite-ubuntu-trusty-go_agent.tgz |
-| bosh-stemcell-53-warden-boshlite-ubuntu.tgz                 |
-| bosh-stemcell-64-warden-boshlite-ubuntu-lucid-go_agent.tgz  |
-| ...                                                         |
-+-------------------------------------------------------------+
-
- $ bosh download public stemcell bosh-stemcell-21-warden-boshlite-ubuntu-trusty-go_agent.tgz
-```
 
 *  Use the `make_manifest_spiff` script to create a cf manifest.  This step assumes you have cf-release checked out in ~/workspace. If you have cf-release checked out to somewhere else, you have to update the `CF_RELEASE_DIR`
  environment variable.  The script also requires that cf-release is checked out with the tag matching the final release you wish to deploy so that the templates used by `make_manifest_spiff` match the code you are deploying.

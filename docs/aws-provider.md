@@ -35,6 +35,7 @@ AWS Environment Variables:
 |BOSH_LITE_PRIVATE_KEY          |path to private key matching keypair |~/.ssh/id_rsa_bosh|
 |[VPC only] BOSH_LITE_SUBNET_ID |AWS VPC subnet ID                    | |
 
+* **NOTE**: `BOSH_LITE_SECURITY_GROUP` should be set to group id not the group name, e.g. `sg-11764446`
 * Make sure the EC2 security group you are using in the `Vagrantfile` exists and allows inbound TCP traffic on ports 25555 (for the BOSH director), 22 (for SSH), 80/443 (for Cloud Controller), and 4443 (for Loggregator).
 
 * Run vagrant up with provider `aws`:

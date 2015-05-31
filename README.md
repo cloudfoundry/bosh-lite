@@ -69,7 +69,7 @@ Installation instructions for different Vagrant providers:
 
     ```
     # if behind a proxy, exclude both the VM's private IP and xip.io by setting no_proxy (xip.io is introduced later)
-    $ export no_proxy=192.168.50.4,xip.io
+    $ export no_proxy=192.168.50.4.xip.io
 
     $ bosh target 192.168.50.4 lite
     Target set to `Bosh Lite Director'

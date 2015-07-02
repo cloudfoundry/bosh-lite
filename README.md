@@ -65,7 +65,7 @@ Installation instructions for different Vagrant providers:
     $ vagrant up --provider=virtualbox
     ```
 
-1. Target the BOSH Director and login with admin/admin.
+1. Target the BOSH Director. When prompted to log in, use admin/admin.
 
     ```
     # if behind a proxy, exclude both the VM's private IP and xip.io by setting no_proxy (xip.io is introduced later)
@@ -73,8 +73,6 @@ Installation instructions for different Vagrant providers:
 
     $ bosh target 192.168.50.4 lite
     Target set to `Bosh Lite Director'
-
-    $ bosh login
     Your username: admin
     Enter password: *****
     Logged in as `admin'

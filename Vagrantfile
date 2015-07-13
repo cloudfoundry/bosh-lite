@@ -9,6 +9,7 @@ Vagrant.configure('2') do |config|
 
   config.vm.provider :aws do |v, override|
     override.vm.box_version = '9000.37.0' # ci:replace
+    v.elastic_ip = true
     # To turn off public IP echoing, uncomment this line:
     # override.vm.provision :shell, id: "public_ip", run: "always", inline: "/bin/true"
 

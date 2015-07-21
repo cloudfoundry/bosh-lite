@@ -33,6 +33,7 @@ AWS Environment Variables:
 |BOSH_LITE_NAME                 |AWS instance name                    |Vagrant|
 |BOSH_LITE_SECURITY_GROUP       |AWS security group                   |inception|
 |BOSH_LITE_PRIVATE_KEY          |path to private key matching keypair |~/.ssh/id_rsa_bosh|
+|BOSH_AWS_REGION                |AWS availability zone                |us-east-1|
 |[VPC only] BOSH_LITE_SUBNET_ID |AWS VPC subnet ID                    | |
 
 * **NOTE**: `BOSH_LITE_SECURITY_GROUP` should be set to group id not the group name if VM is deployed into the VPC, e.g. `sg-11764446`

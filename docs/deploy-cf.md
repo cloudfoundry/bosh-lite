@@ -4,9 +4,25 @@
 
 * Install [Spiff](https://github.com/cloudfoundry-incubator/spiff). Use the [latest binary of Spiff](https://github.com/cloudfoundry-incubator/spiff/releases), extract it, and make sure that `spiff` is in your `$PATH`. Windows users can perform the Prepare Warden Stemcell and Deploy Cloud Foundry steps within the Ubuntu VM created by Vagrant if no Windows release of Spiff is available, or see [this blog](http://aliwahaj.blogspot.de/2014/01/installing-cloud-foundry-on-vagrant.html) for tips on building Spiff on Windows.
 
-* Clone the [cf-release](https://github.com/cloudfoundry/cf-release) repository into the same directory that you cloned this repository into.
+    For example, in a 64-bit Ubuntu environment:
 
     ```
+    wget https://github.com/cloudfoundry-incubator/spiff/releases/download/v1.0.7/spiff_linux_amd64.zip
+    sudo apt-get update && sudo apt-get install -y unzip
+    unzip spiff_linux_amd64.zip
+    sudo mv spiff /usr/local/bin/spiff
+    ```
+
+* Clone the [cf-release](https://github.com/cloudfoundry/cf-release) repository into the same directory that you cloned this repository into.
+
+    Before using `git` it must be installed. For example, in a 64-bit Ubuntu environment:
+
+    ```
+    sudo apt-get update && sudo apt-get install -y git
+    ```
+
+    ```
+    mkdir ~/workspace
     cd ~/workspace
     git clone https://github.com/cloudfoundry/cf-release
     cd cf-release

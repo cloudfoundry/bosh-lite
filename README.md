@@ -83,7 +83,7 @@ Installation instructions for different Vagrant providers:
 1. Add a set of route entries to your local route table to enable direct Warden container access every time your networking gets reset (e.g. reboot or connect to a different network). Your sudo password may be required.
 
     ```
-    $ bin/add-route
+    $ /vagrant/bin/add-route
     ```
 
 #### Customizing the local VM IP

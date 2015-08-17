@@ -6,6 +6,7 @@ manifests/cf-manifest.yml
 bosh_lite_manifest.yml
 
 latest-bosh-stemcell-warden.*
+bosh-stemcell-*-warden-*
 
 /output-virtualbox-iso/
 /output-vmware-iso/

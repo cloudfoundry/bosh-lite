@@ -48,7 +48,7 @@ Installation instructions for different Vagrant providers:
 
 #### Using the Virtualbox Provider
 
-1. Install Virtualbox
+1. Install [Virtualbox](https://www.virtualbox.org/wiki/Downloads)
 
     Known working version:
 

@@ -21,11 +21,11 @@ Note: This process is an alternative to the manual steps below to deploy the lat
 
 ### Manual deploy
 
-* Decide which final release of Cloud Foundry you wish to deploy by looking at in the [releases directory of cf-release](https://github.com/cloudfoundry/cf-release/tree/master/releases).  At the time of this writing, cf-180 is the most recent. We will use that as the example, but you are free to substitute any future release.
+* Decide which final release of Cloud Foundry you wish to deploy by looking at in the [releases directory of cf-release](https://github.com/cloudfoundry/cf-release/tree/master/releases).  At the time of this writing, cf-214 is the most recent. We will use that as the example, but you are free to substitute any future release.
 
 *  Upload final release
 
-    Use the version that matches the tag you checked out. For v180 you would use: releases/cf-180.yml
+    Use the version that matches the tag you checked out. For v214 you would use: releases/cf-214.yml
 
     ```
     cd ~/workspace/cf-release

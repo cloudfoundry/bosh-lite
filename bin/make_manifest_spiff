@@ -26,7 +26,7 @@ cp $BOSH_LITE_HOME/manifests/cf-stub-spiff.yml $temp_dir/cf-stub-with-uuid.yml
 echo $DIRECTOR_UUID
 perl -pi -e "s/PLACEHOLDER-DIRECTOR-UUID/$DIRECTOR_UUID/g" $temp_dir/cf-stub-with-uuid.yml
 
-$CF_RELEASE_DIR/generate_deployment_manifest \
+$CF_RELEASE_DIR/scripts/generate_deployment_manifest \
 	warden \
 	$temp_dir/cf-stub-with-uuid.yml \
 	$CF_RELEASE_DIR/templates/cf-minimal-dev.yml \

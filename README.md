@@ -99,7 +99,7 @@ The local VMs (virtualbox, vmware providers) will be accessible at `192.168.50.4
 
 ## Deploy Cloud Foundry
 
-* See [deploying Cloud Foundry documentation](docs/deploy-cf.md)
+* See [deploying Cloud Foundry documentation](http://docs.cloudfoundry.org/deploying/boshlite/deploy_cf_boshlite.html)
 
 ## Misc
 

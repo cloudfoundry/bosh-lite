@@ -29,11 +29,11 @@ upload_stemcell() {
 
 build_manifest() {
   cd $CF_DIR
-  ./update
+  ./scripts/update
 
-  cd $BOSH_LITE_DIR
-  export CF_RELEASE_DIR=$CF_DIR
-  ./bin/make_manifest_spiff
+  ./scripts/generate-bosh-lite-dev-manifest "$@"
+
+  bosh status
 }
 
 deploy_release() {

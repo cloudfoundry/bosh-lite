@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 BOSH_RELEASES_DIR=${BOSH_RELEASES_DIR:-~/workspace}
 CF_RELEASE_DIR=${CF_RELEASE_DIR:-$BOSH_RELEASES_DIR/cf-release}

@@ -75,7 +75,7 @@ properties:
     name: "Bosh Lite Director"
     address: 127.0.0.1
     max_tasks: 100
-    cpi_job: cpi
+    cpi_job: warden
     db: *db
 
     # Compatibility with current garden networking manifest config

@@ -27,7 +27,7 @@ This readme walks through deploying Cloud Foundry with BOSH Lite. BOSH and BOSH 
 1. Install latest version of `bosh_cli`
 
    ```
-   $ gem install bosh_cli
+   $ gem install bosh_cli --no-ri --no-rdoc
    ```
 
    Refer to [BOSH CLI installation instructions](http://docs.cloudfoundry.org/bosh/bosh-cli.html) for more information and troubleshooting tips.

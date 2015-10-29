@@ -52,14 +52,14 @@ This readme walks through deploying Cloud Foundry with BOSH Lite. BOSH and BOSH 
 
 Installation instructions for different Vagrant providers:
 
-* Virtualbox (below)
+* VirtualBox (below)
 * [AWS](docs/aws-provider.md)
 
-#### Using the Virtualbox Provider
+#### Using the VirtualBox Provider
 
 1. Make sure your machine has at least 8GB RAM, and 100GB free disk space. Smaller configurations may work.
 
-1. Install [Virtualbox](https://www.virtualbox.org/wiki/Downloads)
+1. Install [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
 
     Known working version:
 

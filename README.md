@@ -112,7 +112,7 @@ The local VMs (virtualbox, vmware providers) will be accessible at `192.168.50.4
 
 ## Deploy Cloud Foundry
 
-See [deploying Cloud Foundry documentation](http://docs.cloudfoundry.org/deploying/boshlite/deploy_cf_boshlite.html) for detailed instructions. Alternatively run `./bin/provision_cf` from this repository.
+See [deploying Cloud Foundry documentation](http://docs.cloudfoundry.org/deploying/boshlite/deploy_cf_boshlite.html) for detailed instructions. Alternatively, check out [CF Release](https://github.com/cloudfoundry/cf-release) as `~/workspace/cf-release` and run `./bin/provision_cf` from this repository.
 
 ## Troubleshooting
 

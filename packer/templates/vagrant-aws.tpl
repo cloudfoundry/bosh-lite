@@ -34,6 +34,7 @@ Vagrant.configure('2') do |config|
       'Ebs.VolumeSize' => env.fetch('BOSH_LITE_DISK_SIZE', '80').to_i
     }]
     v.instance_type =       env.fetch('BOSH_LITE_INSTANCE_TYPE', 'm3.xlarge')
+    v.elastic_ip =          env.fetch('BOSH_LITE_ELASTIC_IP', nil)
     v.security_groups =     [env.fetch('BOSH_LITE_SECURITY_GROUP', 'inception')]
     v.subnet_id =           env.fetch('BOSH_LITE_SUBNET_ID') if env.include?('BOSH_LITE_SUBNET_ID')
     v.tags =                tags_from_environment(env)

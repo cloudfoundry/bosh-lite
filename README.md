@@ -86,8 +86,6 @@ Installation instructions for different Vagrant providers:
 
     $ bosh target 192.168.50.4 lite
     Target set to `Bosh Lite Director'
-
-    $ bosh login
     Your username: admin
     Enter password: *****
     Logged in as `admin'

@@ -2,7 +2,7 @@
 
 set -e
 
-sudo gem install bosh_cli --no-ri --no-rdoc
+gem install bosh_cli --no-ri --no-rdoc
 
 (cat <<BOSH_CONFIG
 auth:
@@ -19,4 +19,4 @@ chown $user:$user $HOME/.bosh_config
 
 wget "https://cli.run.pivotal.io/stable?release=linux64-binary&source=github" -O /tmp/cf-cli.tgz
 tar xf /tmp/cf-cli.tgz -C /tmp
-sudo mv /tmp/cf /usr/local/bin/
+mv /tmp/cf /usr/local/bin/

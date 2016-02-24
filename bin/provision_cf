@@ -21,7 +21,7 @@ fetch_stemcell() {
   if [[ -e $STEMCELL_FILE ]]; then
     echo "Checking for latest stemcell"
     DATEFILE=$BOSH_LITE_DIR/7daysago
-    touch -t "$(date -v -7d +%Y%m%d%H%M)" ${DATEFILE}
+    touch -t $(date --date="7 days ago" +"%Y%m%d%H%M") ${DATEFILE}
     if [ ${STEMCELL_FILE} -ot ${DATEFILE} ]; then
       echo "Removing stemcells older than 7 days"
       rm -f $STEMCELL_FILE

@@ -33,4 +33,9 @@ Vagrant.configure('2') do |config|
     #we no longer build current boxes for vmware_workstation
     #ensure that this fails. otherwise the user gets an old box
   end
+
+  # Remove 8.8.8.8 from /etc/resolv.conf if not reachable
+  config.vm.provision :shell do |dns|
+    dns.inline = 'nslookup -retry=2 -timeout=3 www.google.com 8.8.8.8 > /dev/null || sudo sed -i "s/^\(nameserver 8.8.8.8\)$/#\1/" /etc/resolv.conf /etc/resolvconf/resolv.conf.d/head'
+  end
 end

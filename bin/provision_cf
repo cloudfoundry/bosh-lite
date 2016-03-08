@@ -9,19 +9,38 @@ BOSH_LITE_DIR="${WORKSPACE_DIR}/bosh-lite"
 CF_DIR="${WORKSPACE_DIR}/cf-release"
 
 main() {
+  validate_directories
   fetch_stemcell
   upload_stemcell
   build_manifest $@
+  create_release
   deploy_release
+  echo "Deploy completed."
+  echo "Make sure you invoke bin/add-route to be able to access your deployment at"
+  echo "https://login.bosh-lite.com"
+}
+
+validate_directories() {
+  GEN_MANIFEST_FILE=$CF_DIR/scripts/generate-bosh-lite-dev-manifest
+  if [[ ! -e $GEN_MANIFEST_FILE ]]; then
+    echo "cf-release directory missing, cannot find $GEN_MANIFEST_FILE"
+    echo "Ensure that you 'git clone https://github.com/cloudfoundry/cf-release.git'"
+    echo "Followed by a <bundle install> to ensure you have all the required gems installed"
+    exit 1
+  fi
 }
 
 fetch_stemcell() {
   # check if we already have a stemcell and how old it is
   # if its older than 7 days. Lets get it again
-  if [[ -e $STEMCELL_FILE && `uname` == "Darwin" ]]; then
+  if [[ -e $STEMCELL_FILE ]]; then
     echo "Checking for latest stemcell"
     DATEFILE=$BOSH_LITE_DIR/7daysago
-    touch -t "$(date -v -7d +%Y%m%d%H%M)" ${DATEFILE}
+    if [ `uname` == "Darwin" ]; then
+      touch -t "$(date -v -7d +%Y%m%d%H%M)" ${DATEFILE}
+    else
+      touch -d "-7 day" ${DATEFILE}
+    fi
     if [ ${STEMCELL_FILE} -ot ${DATEFILE} ]; then
       echo "Removing stemcells older than 7 days"
       rm -f $STEMCELL_FILE
@@ -43,16 +62,22 @@ upload_stemcell() {
 }
 
 build_manifest() {
-  echo "Generating bosh lite manifest"
   cd $CF_DIR
-  ./scripts/update
+  echo "Updating cf-release sub modules"
+  ./scripts/update > /dev/null
+  echo "Generating bosh lite manifest from ${CF_DIR}/scripts/generate-bosh-lite-dev-manifest"
   ./scripts/generate-bosh-lite-dev-manifest "$@"
   bosh status
 }
 
+create_release() {
+  echo "Creating cf-release release"
+  cd $CF_DIR
+  bosh create release --force
+}
+
 deploy_release() {
-  MOST_RECENT_CF_RELEASE=$(find ${CF_DIR}/releases -regex ".*cf-[0-9]*.yml" | sort | tail -n 1)
-  bosh -n -u admin -p admin upload release --skip-if-exists $MOST_RECENT_CF_RELEASE
+  bosh -n -u admin -p admin upload release --skip-if-exists
   bosh -n -u admin -p admin deploy
 }
 

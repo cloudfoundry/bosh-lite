@@ -56,9 +56,14 @@ The full list of supported environment variables follows:
     $ vagrant up --provider=aws
     ```
 
-1. Find out the public IP of the box you just launched. You can see this info at the end of `vagrant up` output. Another way is running `vagrant ssh-config`.
+1. If you haven't already, install the BOSH CLI
 
-1. Target the BOSH Director and login with admin/admin.
+  See [bosh.io](http://bosh.io/docs/bosh-cli.html) for instructions.
+  
+1. Target the BOSH Director and login
+
+  - Use the public IP found in the output of `vagrant up` or the hostname returned by running `vagrant ssh-config` 
+  - Default credentials are admin/admin
 
     ```
     $ bosh target <public_ip_of_the_box>
@@ -70,11 +75,15 @@ The full list of supported environment variables follows:
     Logged in as `admin'
     ```
 
-1. As part of Vagrant provisioning bosh-lite is setting IP tables rules to direct future traffic received on the instance to another IP (the HAProxy). These rules are cleared on restart. In case of restart they can be created by running `vagrant provision`.
+## Troubleshooting
 
-### Customizing AWS provisioning
+- As part of Vagrant provisioning bosh-lite is setting IP tables rules to direct future traffic received on the instance to another IP (the HAProxy). These rules are cleared on restart. In case of restart they can be created by running `vagrant provision`.
 
-The AWS bosh-lite VM will echo its private IP on provisioning so that you can target it. You can disable this by uncommenting the `public_ip` provisioner in the `aws` provider.
+## Customizing AWS Provisioning
+
+The following instructions involve modifying the Vagrantfile found in the cloned bosh-lite directory.
+
+- The AWS bosh-lite VM will echo its private IP on provisioning so that you can target it. You can disable this by uncommenting the `public_ip` provisioner in the `aws` provider.
 
 ```
 config.vm.provider :aws do |v, override|
@@ -82,7 +91,7 @@ config.vm.provider :aws do |v, override|
 end
 ```
 
-Port forwarding on HTTP/S ports is set up for the CF Cloud Controller on the AWS VM. If you are not going to deploy Cloud Contorller (or just don't want this), you can disable this by uncommenting the `port_forwarding` provisioner in the `aws` provider.
+- Port forwarding on HTTP/S ports is set up for the CF Cloud Controller on the AWS VM. If you are not going to deploy Cloud Contorller (or just don't want this), you can disable this by uncommenting the `port_forwarding` provisioner in the `aws` provider.
 
 ```
 config.vm.provider :aws do |v, override|
@@ -90,7 +99,7 @@ config.vm.provider :aws do |v, override|
 end
 ```
 
-AWS boxes are published for the following regions: us-east-1, us-west-1, us-west-2, eu-west-1, ap-southeast-1, ap-southeast-2, ap-northeast-1, sa-east-1. Default region is us-east-1. To use a different region add `region` configuration to the `aws` provider.
+- AWS boxes are published for the following regions: us-east-1, us-west-1, us-west-2, eu-west-1, ap-southeast-1, ap-southeast-2, ap-northeast-1, sa-east-1. Default region is us-east-1. To use a different region add `region` configuration to the `aws` provider.
 
 ```
 config.vm.provider :aws do |v, override|

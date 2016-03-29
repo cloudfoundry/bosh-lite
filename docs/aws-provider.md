@@ -12,27 +12,27 @@ These instructions assume use of AWS VPC.
 
     Known working version: 0.4.1
 
-1. If you don't already have one, create an SSH key pair so that you can access Bosh Lite once it is deployed. By default, Vagrant will look for this in `~/.ssh/id_rsa_bosh`. To specify a different location, provide the full path with environment variable `BOSH_LITE_PRIVATE_KEY`.
 1. If you don't already have one, create an AWS Access Key. Set environment variables `BOSH_AWS_ACCESS_KEY_ID` and `BOSH_AWS_SECRET_ACCESS_KEY`.
-1. If you don't already have one, create a VPC, subnet and security group. If you use the VPC Wizard, these will be created for you all at once. Set environment variables `BOSH_LITE_SUBNET_ID` and `BOSH_LITE_SECURITY_GROUP`. 
-  - Use the IDs as values for these environment variables, not the names, e.g `subnet-37d0526f` and `sg-62166d1a`.
-  - Make sure the security group is associated with the VPC and allows inbound TCP traffic on ports 25555 (for the BOSH director), 22 (for SSH), 80/443 (for Cloud Controller), and 4443 (for Loggregator).
-  - If you do not specify a Subnet ID, Vagrant will look for one called `inception`.
-1. Create an EC2 Key Pair, or upload one of your own.
-  - By default, Vagrant will look for a keypair in the `bosh-lite` directory called `bosh`. If you use AWS to create a Key Pair and call it `bosh`, it will be downloaded as `bosh.pem`. Move it to the `bosh-lite` directory. 
-1. The AWS EC2 instance will be named `Vagrant` by default. To change this use the environment variable `BOSH_LITE_NAME`.
+1. Create an SSH key pair so that you can SSH into Bosh Lite once it is deployed. If you generate an EC2 Key Pair in AWS the private key will be downloaded. If you Import Key Pair, you'll upload the public key to AWS. Set the `BOSH_LITE_PRIVATE_KEY` environment variable to the file path for the private key (defaults to `~/.ssh/id_rsa_bosh`). Set `BOSH_LITE_KEYPAIR` to the name you gave the EC2 Key Pair in AWS.  
+1. If you don't already have one, create a VPC, Subnet and Security Group. If you use the VPC Wizard, these will be created for you all at once. Set environment variables `BOSH_LITE_SUBNET_ID` and `BOSH_LITE_SECURITY_GROUP`. 
+  - Use the IDs as values for these environment variables, not the names; e.g `subnet-37d0526f` and `sg-62166d1a`.
+1. By default, VMs will not be assigned a public IP on creation. Modify the Subnet to Enable auto-assign Public IP.
+1. By default, Security Groups only allow access from within the Security Group. Modify the Security Group to allow inbound traffic from anywhere (set Source to `0.0.0.0/0`). 
+  - If you want to lock down access, BOSH Lite requires inbound traffic on ports 25555 (for the BOSH director), 22 (for SSH), 80/443 (for Cloud Controller), and 4443 (for Loggregator).
 
-To configure the necessary environment variables all at once, copy and paste the following script into your shell then edit the file `aws-boshlite` to add the necessary values. This assumes your SSH key and AWS Key Pair are in the default locations. If they are not, add them to the file.
+To configure these environment variables all at once, copy and paste the following script into your shell then edit the file `aws-boshlite` to add values. 
 
 ```
 cat > aws-boshlite <<EOF
 export BOSH_AWS_ACCESS_KEY_ID=
 export BOSH_AWS_SECRET_ACCESS_KEY=
-export BOSH_LITE_SECURITY_GROUP=
+export BOSH_LITE_PRIVATE_KEY=
+export BOSH_LITE_KEYPAIR=
 export BOSH_LITE_SUBNET_ID=
+export BOSH_LITE_SECURITY_GROUP=
 EOF
 ```
-Now set the environment variables:
+Now set the environment variables by sourcing the file:
 ```
 source aws-boshlite
 ```
@@ -41,15 +41,15 @@ The full list of supported environment variables follows:
 
 |Name|Description|Default|
 |---|---|---|
-|BOSH_LITE_PRIVATE_KEY      |path to private key matching keypair |~/.ssh/id_rsa_bosh|
 |BOSH_AWS_ACCESS_KEY_ID     |AWS Access Key ID                    | |
 |BOSH_AWS_SECRET_ACCESS_KEY |AWS Secret Access Key                | |
-|BOSH_LITE_SECURITY_GROUP   |AWS Security Group (Use the ID not the name; e.g. `sg-62166d1a`) |inception|
-|BOSH_LITE_SUBNET_ID        |AWS VPC Subnet ID (Not necessary for EC2 Classic. Use the ID not the name; e.g. `subnet-37d0526f`) | |
 |BOSH_LITE_KEYPAIR          |AWS Key Pair name                    |bosh|
+|BOSH_LITE_PRIVATE_KEY      |File path for local private key matching BOSH_LITE_KEYPAIR |~/.ssh/id_rsa_bosh|
+|BOSH_LITE_SECURITY_GROUP   |AWS Security Group ID (Use the ID; e.g. `sg-62166d1a`) |inception|
+|BOSH_LITE_SUBNET_ID        |AWS VPC Subnet ID (Not necessary for EC2 Classic. Use the ID; e.g. `subnet-37d0526f`) | |
 |BOSH_LITE_NAME             |AWS EC2 instance name                |Vagrant|
 
-## Deploy Bosh Lite
+## Deploy BOSH Lite
 
 1. Run vagrant up with provider `aws`:
 

@@ -28,7 +28,7 @@ source aws-boshlite
 ### Additional Prerequisites for EC2 Classic
 
 1. Create a Security Group with name `inception`, or set the environment variable `BOSH_LITE_SECURITY_GROUP` to the Group Name of the security group you created. Group ID will not be recognized unless the Security Group is associated with a VPC.
-1. Continue to Deploying BOSH Lite below.
+1. Continue to [Deploying BOSH Lite](#deploy-bosh-lite).
 
 ### Additional Prerequisites for VPC
 

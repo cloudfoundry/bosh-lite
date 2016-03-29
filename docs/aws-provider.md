@@ -85,27 +85,27 @@ The following instructions involve modifying the Vagrantfile found in the cloned
 
 - The AWS bosh-lite VM will echo its private IP on provisioning so that you can target it. You can disable this by uncommenting the `public_ip` provisioner in the `aws` provider.
 
-```
-config.vm.provider :aws do |v, override|
-  override.vm.provision :shell, id: "public_ip", run: "always", inline: "/bin/true"
-end
-```
+    ```
+    config.vm.provider :aws do |v, override|
+      override.vm.provision :shell, id: "public_ip", run: "always", inline: "/bin/true"
+    end
+    ```
 
 - Port forwarding on HTTP/S ports is set up for the CF Cloud Controller on the AWS VM. If you are not going to deploy Cloud Contorller (or just don't want this), you can disable this by uncommenting the `port_forwarding` provisioner in the `aws` provider.
 
-```
-config.vm.provider :aws do |v, override|
-  override.vm.provision :shell, id: "port_forwarding", run: "always", inline: "/bin/true"
-end
-```
+    ```
+    config.vm.provider :aws do |v, override|
+      override.vm.provision :shell, id: "port_forwarding", run: "always", inline: "/bin/true"
+    end
+    ```
 
 - AWS boxes are published for the following regions: us-east-1, us-west-1, us-west-2, eu-west-1, ap-southeast-1, ap-southeast-2, ap-northeast-1, sa-east-1. Default region is us-east-1. To use a different region add `region` configuration to the `aws` provider.
 
-```
-config.vm.provider :aws do |v, override|
-  v.region = "us-west-2"
-end
-```
+    ```
+    config.vm.provider :aws do |v, override|
+      v.region = "us-west-2"
+    end
+    ```
 
 ### EC2 Classic or VPC
 

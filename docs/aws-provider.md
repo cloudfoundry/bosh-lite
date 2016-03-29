@@ -68,13 +68,13 @@ The full list of supported environment variables follows:
   
 1. Target the BOSH Director and login
 
-  - Use the public IP found in the output of `vagrant up` or the hostname returned by running `vagrant ssh-config` 
-  - Default credentials are admin/admin
+      - Use the public IP found in the output of `vagrant up` or the hostname returned by running `vagrant ssh-config` 
+      - Default credentials are admin/admin
 
     ```
     $ bosh target <public_ip_of_the_box>
     Target set to `Bosh Lite Director'
-
+    
     $ bosh login
     Your username: admin
     Enter password: *****

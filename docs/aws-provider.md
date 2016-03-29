@@ -13,7 +13,7 @@ These instructions assume use of AWS VPC.
     Known working version: 0.4.1
 
 1. If you don't already have one, create an AWS Access Key. Set environment variables `BOSH_AWS_ACCESS_KEY_ID` and `BOSH_AWS_SECRET_ACCESS_KEY`.
-1. Create an SSH key pair so that you can SSH into Bosh Lite once it is deployed. If you generate an EC2 Key Pair in AWS the private key will be downloaded. If you Import Key Pair, you'll upload the public key to AWS. Call the EC2 Key Pair `bosh` or set the environment variable `BOSH_LITE_KEYPAIR` to the name you gave. Set `BOSH_LITE_PRIVATE_KEY` to the local file path for the private key (defaults to `~/.ssh/id_rsa_bosh`). 
+1. Create an SSH key pair so that you can SSH into Bosh Lite once it is deployed. If you generate an EC2 Key Pair in AWS the private key will be downloaded. Call the EC2 Key Pair `bosh` or set the environment variable `BOSH_LITE_KEYPAIR` to the name you gave. Set `BOSH_LITE_PRIVATE_KEY` to the local file path for the private key (defaults to `~/.ssh/id_rsa_bosh`). 
 1. If you don't already have one, create a VPC, Subnet and Security Group. If you use the VPC Wizard, these will be created for you all at once. Set environment variables `BOSH_LITE_SUBNET_ID` and `BOSH_LITE_SECURITY_GROUP`. 
   - Use the IDs as values for these environment variables, not the names; e.g `subnet-37d0526f` and `sg-62166d1a`.
 1. By default, VMs will not be assigned a public IP on creation. Modify the Subnet to Enable auto-assign Public IP.

@@ -27,13 +27,13 @@ source aws-boshlite
 ```
 ### Additional Prerequisites for EC2 Classic
 
-1. Create a Security Group with name `inception`, or set the environment variable `BOSH_LITE_SECURITY_GROUP` to the Group Name of the security group you created. Group ID will not be recognized unless the Security Group is associated with a VPC.
+1. Create a Security Group with name `inception`, or set the environment variable `BOSH_LITE_SECURITY_GROUP` to the Group Name of the security group you created. Do not use Group ID, as the deploy will fail unless the Security Group is associated with a VPC.
 1. Continue to [Deploy BOSH Lite](#deploy-bosh-lite).
 
 ### Additional Prerequisites for VPC
 
 1. If you don't already have one, create a VPC. If you use the VPC Wizard, a Security Group and a Subnet will be created for you. If you create the VPC manually a Security Group will be created automatically but you must manually create a Subnet.
-1. Set the environment variable `BOSH_LITE_SECURITY_GROUP` to the Group ID (e.g. `sg-62166d1a`) of a Security Group associated with the VPC. Note: this is different from EC2-Classic, where the Group Name is used.
+1. Set the environment variable `BOSH_LITE_SECURITY_GROUP` to the Group ID (e.g. `sg-62166d1a`) of a Security Group associated with the VPC. Note: this is different from [EC2-Classic](#additional-prerequisites-for-ec2-classic), where the Group Name is used.
 1. By default Security Groups only allow access from within the Security Group. Modify the Security Group to allow inbound traffic from anywhere (set Source to `0.0.0.0/0`). 
   - If you want to lock down access, BOSH Lite requires inbound traffic on ports 25555 (for the BOSH director), 22 (for SSH), 80/443 (for Cloud Controller), and 4443 (for Loggregator).
 1. If you don't already have one, create a Subnet. Set the environment variable `BOSH_LITE_SUBNET_ID` to the Subnet ID (e.g. `subnet-37d0526f`).

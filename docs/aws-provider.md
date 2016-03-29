@@ -43,7 +43,7 @@ The full list of supported environment variables follows:
 |BOSH_AWS_ACCESS_KEY_ID     |AWS Access Key ID                    | |
 |BOSH_AWS_SECRET_ACCESS_KEY |AWS Secret Access Key                | |
 |BOSH_LITE_KEYPAIR          |AWS EC2 Key Pair name                |bosh|
-|BOSH_LITE_PRIVATE_KEY      |Local file path for private key matching BOSH_LITE_KEYPAIR |~/.ssh/id_rsa_bosh|
+|BOSH_LITE_PRIVATE_KEY      |Local file path for private key matching `BOSH_LITE_KEYPAIR` |~/.ssh/id_rsa_bosh|
 |BOSH_LITE_SECURITY_GROUP   |AWS Security Group ID (Use the ID, not the name; e.g. `sg-62166d1a`) |inception|
 |BOSH_LITE_SUBNET_ID        |AWS VPC Subnet ID (Not necessary for EC2 Classic. Use the ID, not the name; e.g. `subnet-37d0526f`) | |
 |BOSH_LITE_NAME             |AWS EC2 instance name                |Vagrant|

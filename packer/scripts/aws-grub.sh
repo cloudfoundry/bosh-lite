@@ -1,6 +1,7 @@
 #!/bin/bash
 
-set -ex
+set -e # Exit immediately if a command exits with a non-zero status.
+set -x # Print commands and their arguments as they are executed.
 
 os_name=$(source /etc/lsb-release ; echo -n ${DISTRIB_DESCRIPTION})
 kernel_version=$(basename $(ls /boot/vmlinuz-* |tail -1) |cut -f2-8 -d'-')

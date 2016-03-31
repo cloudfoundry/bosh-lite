@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-set -e
+set -e # Exit immediately if a command exits with a non-zero status.
+set -x # Print commands and their arguments as they are executed.
 
 # Copied from bosh/stemcell_builder/stages/rsyslog/apply.sh
 # (Not installing custom rsyslog version, for now...)

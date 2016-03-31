@@ -1,8 +1,9 @@
 #!/bin/bash
 
-set -ex
+set -e # Exit immediately if a command exits with a non-zero status.
+set -x # Print commands and their arguments as they are executed.
 
-apt-get install -y linux-headers-$(uname -r) build-essential make perl dkms git
+apt-get -y install linux-headers-$(uname -r) build-essential make perl dkms git
 
 mount -o loop /home/vagrant/linux.iso /media/cdrom
 
@@ -17,4 +18,4 @@ cp /media/cdrom/VMwareTools-*.tar.gz .
 rm /home/vagrant/linux.iso
 umount /media/cdrom
 
-apt-get remove -y linux-headers-$(uname -r)
+apt-get -y remove linux-headers-$(uname -r)

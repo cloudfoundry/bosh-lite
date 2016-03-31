@@ -1,6 +1,7 @@
 #!/bin/bash
 
-set -ex
+set -e # Exit immediately if a command exits with a non-zero status.
+set -x # Print commands and their arguments as they are executed.
 
 # Users should be added to admin group in packer template
 groupadd -r admin -f

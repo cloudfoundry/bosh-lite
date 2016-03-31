@@ -3,7 +3,7 @@
 set -x
 
 # Remove release upgrader to prevent check-new-release from running
-apt-get remove -y ubuntu-release-upgrader-core
+apt-get -y remove ubuntu-release-upgrader-core
 
 # Make sure Udev doesn't block our network (http://6.ptmc.org/?p=164)
 echo "Cleaning up udev rules"

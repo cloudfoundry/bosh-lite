@@ -39,14 +39,20 @@ jobs:
   public: true
   serial: true
   plan:
-  - aggregate:
-    - {get: bosh-lite, passed: [build-box-vbox]}
-    - {get: box-version, passed: [build-box-vbox]}
-    - {get: box, passed: [build-box-vbox], resource: pipeline-bucket-vbox, trigger: true}
-  - task: build
-    privileged: true
-    tags: [hetzner]
-    file: bosh-lite/ci/bats-local.yml
+  - put: hetzner
+    params: {acquire: true}
+  - ensure:
+      put: hetzner
+      params: {release: hetzner}
+    do:
+    - aggregate:
+      - {get: bosh-lite, passed: [build-box-vbox]}
+      - {get: box-version, passed: [build-box-vbox]}
+      - {get: box, passed: [build-box-vbox], resource: pipeline-bucket-vbox, trigger: true}
+    - task: build
+      privileged: true
+      tags: [hetzner]
+      file: bosh-lite/ci/bats-local.yml
 
 - name: build-box-aws
   serial: true
@@ -237,3 +243,11 @@ resources:
 - name: garden-linux-release
   type: bosh-io-release
   source: {repository: cloudfoundry-incubator/garden-linux-release}
+
+- name: hetzner
+  type: pool
+  source:
+    uri: git@github.com:concourse/locks.git
+    branch: master
+    pool: hetzner
+    private_key: {{hetzner_pool_key}}

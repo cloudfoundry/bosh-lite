@@ -35,7 +35,7 @@ source aws-boshlite
 1. If you don't already have one, create a VPC. If you use the VPC Wizard, a Security Group and a Subnet will be created for you. If you create the VPC manually a Security Group will be created automatically but you must manually create a Subnet.
 1. Set the environment variable `BOSH_LITE_SECURITY_GROUP` to the Group ID (e.g. `sg-62166d1a`) of a Security Group associated with the VPC. Note: this is different from [EC2-Classic](#additional-prerequisites-for-ec2-classic), where the Group Name is used.
 1. By default Security Groups only allow access from within the Security Group. Modify the Security Group to allow inbound traffic from anywhere (set Source to `0.0.0.0/0`). 
-  - If you want to lock down access, BOSH Lite requires inbound traffic on ports 25555 (for the BOSH director), 22 (for SSH), 80/443 (for Cloud Controller), and 4443 (for Loggregator).
+  - If you want to lock down access, set Source to your IP address. You can also limit what ports are opened; BOSH Lite requires inbound traffic on ports 25555 (for the BOSH director), 22 (for SSH), 80/443 (for Cloud Controller), and 4443 (for Loggregator).
 1. If you don't already have one, create a Subnet. Set the environment variable `BOSH_LITE_SUBNET_ID` to the Subnet ID (e.g. `subnet-37d0526f`).
 1. By default, VMs will not be assigned a public IP on creation. Modify the Subnet to Enable auto-assign Public IP.
 1. Continue to [Deploy BOSH Lite](#deploy-bosh-lite).

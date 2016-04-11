@@ -55,6 +55,10 @@ Installation instructions for different Vagrant providers:
 * VirtualBox (below)
 * [AWS](docs/aws-provider.md)
 
+**VMWare Fusion is unsupported.** If you attempt `vagrant up --provider=vmware_fusion` you'll receive
+an error message stating that Fusion is unsupported and that the image cannot be found. For this reason,
+[VirtualBox](https://virtualbox.org) is strongly suggested.
+
 #### Using the VirtualBox Provider
 
 1. Make sure your machine has at least 8GB RAM, and 100GB free disk space. Smaller configurations may work.

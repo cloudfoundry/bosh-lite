@@ -75,7 +75,8 @@
       "scripts/increase-loop-devices.sh",
       "scripts/setup-syslog.sh",
       "scripts/setup-ntpdate.sh",
-      "scripts/prevent-routing-loops.sh"
+      "scripts/prevent-routing-loops.sh",
+      "scripts/disable_ip_masquerading_for_local_traffic.sh"
     ]
   },{
     "type": "shell",

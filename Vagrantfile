@@ -20,6 +20,7 @@ Vagrant.configure('2') do |config|
     v.access_key_id = ENV['BOSH_AWS_ACCESS_KEY_ID'] || ''
     v.secret_access_key = ENV['BOSH_AWS_SECRET_ACCESS_KEY'] || ''
     v.ami = ''
+    v.region = ENV.fetch('BOSH_LITE_AWS_REGION', 'us-east-1')
   end
 
   config.vm.provider :vmware_fusion do |v, override|

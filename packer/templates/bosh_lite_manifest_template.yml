@@ -73,6 +73,8 @@ properties:
     db: *db
     flush_arp: true
     enable_post_deploy: true
+    enable_dedicated_status_worker: true
+    workers: 11
     events:
       record_events: true
 

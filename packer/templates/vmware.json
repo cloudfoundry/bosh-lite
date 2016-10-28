@@ -71,6 +71,7 @@
       "scripts/vmware-tools.sh",
       "scripts/kernel-cleanup.sh",
       "scripts/admin-sudoers.sh",
+      "scripts/add-br-netfilter-module.sh",
       "scripts/increase-loop-devices.sh",
       "scripts/setup-syslog.sh",
       "scripts/setup-ntpdate.sh",

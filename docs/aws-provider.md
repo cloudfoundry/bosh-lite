@@ -44,6 +44,7 @@ The full list of supported environment variables follows:
 |---|---|---|
 |BOSH_AWS_ACCESS_KEY_ID     |AWS Access Key ID                    | |
 |BOSH_AWS_SECRET_ACCESS_KEY |AWS Secret Access Key                | |
+|BOSH_AWS_SESSION_TOKEN     |AWS STS Session Token                | |
 |BOSH_LITE_REGION           |AWS Region name                      |us-east-1|
 |BOSH_LITE_KEYPAIR          |AWS EC2 Key Pair name                |bosh|
 |BOSH_LITE_PRIVATE_KEY      |Local file path for private key matching `BOSH_LITE_KEYPAIR` |~/.ssh/id_rsa_bosh|

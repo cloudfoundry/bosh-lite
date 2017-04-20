@@ -1,0 +1,4 @@
+export BOSH_ENVIRONMENT=https://192.168.50.4
+export BOSH_CA_CERT=$PWD/ca/certs/ca.crt
+export BOSH_CLIENT=admin
+export BOSH_CLIENT_SECRET=admin

@@ -77,6 +77,7 @@ properties:
     workers: 4
     events:
       record_events: true
+    enable_post_deploy: true
 
     # Compatibility with current garden networking manifest config
     ignore_missing_gateway: true

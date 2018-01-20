@@ -53,7 +53,7 @@ This readme walks through deploying Cloud Foundry with BOSH Lite. BOSH and BOSH 
 Installation instructions for different Vagrant providers:
 
 * VirtualBox (below)
-* [AWS](docs/aws-provider.md)
+* [AWS](/docs/aws-provider.md)
 
 #### Using the VirtualBox Provider
 
@@ -118,7 +118,7 @@ See [deploying Cloud Foundry documentation](http://docs.cloudfoundry.org/deployi
 
 ## Troubleshooting
 
-* [See troubleshooting doc](docs/troubleshooting.md) for solutions to common problems
+* [See troubleshooting doc](/docs/troubleshooting.md) for solutions to common problems
 
 ## Upgrading the BOSH Lite VM
 
@@ -134,8 +134,8 @@ $ vagrant up --provider=DESIRED_PROVIDER
 ## Miscellaneous
 
 * [Warden CPI's cloud properties](http://bosh.io/docs/warden-cpi.html) for configuring deployment manifest
-* [bosh cck documentation](docs/bosh-cck.md) for restoring deployments after VM reboot
-* [bosh ssh documentation](docs/bosh-ssh.md) for SSH into deployment jobs
-* [Offline documentation](docs/offline-dns.md) to configure BOSH lite firewall rules
+* [bosh cck documentation](/docs/bosh-cck.md) for restoring deployments after VM reboot
+* [bosh ssh documentation](/docs/bosh-ssh.md) for SSH into deployment jobs
+* [Offline documentation](/docs/offline-dns.md) to configure BOSH lite firewall rules
 * [xip.io](http://xip.io) to access local IPs via DNS
-* [Dev documentation](docs/dev.md) to find out how to build custom bosh-lite boxes
+* [Dev documentation](/docs/dev.md) to find out how to build custom bosh-lite boxes

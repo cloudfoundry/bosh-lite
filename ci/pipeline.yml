@@ -14,45 +14,48 @@ jobs:
   - put: box-version
     params: {file: box-version/number}
 
-- name: build-box-vbox
-  public: true
-  serial: true
-  plan:
-  - aggregate:
-    - {get: bosh-lite, passed: [new-box]}
-    - {get: box-version, passed: [new-box], trigger: true}
-    - {get: bosh-release, passed: [new-box]}
-    - {get: bosh-warden-cpi-release, passed: [new-box]}
-    - {get: garden-linux-release, passed: [new-box]}
-  - task: build-box
-    privileged: true
-    tags: [hetzner]
-    file: bosh-lite/ci/build-box-local.yml
-    config:
-      params:
-        BOSH_AWS_ACCESS_KEY_ID: {{aws_key_id}}
-        BOSH_AWS_SECRET_ACCESS_KEY: {{aws_secret_access_key}}
-  - put: pipeline-bucket-vbox
-    params: {file: box-out/bosh-lite-*.box}
+# - name: build-box-vbox
+#   public: true
+#   serial: true
+#   plan:
+#   - aggregate:
+#     - {get: bosh-lite, passed: [new-box]}
+#     - {get: box-version, passed: [new-box], trigger: true}
+#     - {get: bosh-release, passed: [new-box]}
+#     - {get: bosh-warden-cpi-release, passed: [new-box]}
+#     - {get: garden-linux-release, passed: [new-box]}
+#   - task: build-box
+#     privileged: true
+#     tags: [hetzner]
+#     file: bosh-lite/ci/build-box-local.yml
+#     config:
+#       params:
+#         BOSH_AWS_ACCESS_KEY_ID: {{aws_key_id}}
+#         BOSH_AWS_SECRET_ACCESS_KEY: {{aws_secret_access_key}}
+#   - put: pipeline-bucket-vbox
+#     params: {file: box-out/bosh-lite-*.box}
 
-- name: bats-vbox
-  public: true
-  serial: true
-  plan:
-  - put: hetzner
-    params: {acquire: true}
-  - ensure:
-      put: hetzner
-      params: {release: hetzner}
-    do:
-    - aggregate:
-      - {get: bosh-lite, passed: [build-box-vbox]}
-      - {get: box-version, passed: [build-box-vbox]}
-      - {get: box, passed: [build-box-vbox], resource: pipeline-bucket-vbox, trigger: true}
-    - task: build
-      privileged: true
-      tags: [hetzner]
-      file: bosh-lite/ci/bats-local.yml
+# - name: bats-vbox
+#   public: true
+#   serial: true
+#   plan:
+#   - put: hetzner
+#     params: {acquire: true}
+#   - ensure:
+#       put: hetzner
+#       params: {release: hetzner}
+#     do:
+#     - aggregate:
+#       - {get: bosh-lite, passed: [build-box-vbox]}
+#       - {get: box-version, passed: [build-box-vbox]}
+#       - {get: box, passed: [build-box-vbox], resource: pipeline-bucket-vbox, trigger: true}
+#     - task: build
+#       privileged: true
+#       tags: [hetzner]
+#       file: bosh-lite/ci/bats-local.yml
+#       config:
+#         params:
+#           UNSUPPORTED_BATS: vip_networking,multiple_manual_networks,dns,root_partition,raw_ephemeral_storage,system_services_running
 
 - name: build-box-aws
   serial: true
@@ -87,6 +90,7 @@ jobs:
         BOSH_AWS_ACCESS_KEY_ID: {{aws_key_id}}
         BOSH_AWS_SECRET_ACCESS_KEY: {{aws_secret_access_key}}
         BOSH_LITE_PRIVATE_KEY: {{bosh_lite_private_key}}
+        UNSUPPORTED_BATS: vip_networking,multiple_manual_networks,dns,root_partition,raw_ephemeral_storage,system_services_running
 
 - name: build-box-docker
   public: true
@@ -129,9 +133,9 @@ jobs:
   serial: true
   plan:
   - aggregate:
-    - {get: bosh-lite, passed: [bats-vbox, bats-aws, deploy-cf-aws]}
-    - {get: box-version, passed: [bats-vbox, bats-aws, deploy-cf-aws], trigger: true}
-    - {get: pipeline-bucket-vbox, passed: [bats-vbox]}
+    - {get: bosh-lite, passed: [bats-aws, deploy-cf-aws]}
+    - {get: box-version, passed: [bats-aws, deploy-cf-aws], trigger: false}
+    - {get: pipeline-bucket-vbox, passed: []}
     - {get: pipeline-bucket-aws, passed: [bats-aws, deploy-cf-aws]}
   - aggregate:
     - put: final-boxes-bucket-vbox
@@ -154,8 +158,8 @@ jobs:
   serial: true
   plan:
   - aggregate:
-    - {get: bosh-lite, passed: [bats-vbox, bats-aws, deploy-cf-aws, build-box-docker]}
-    - {get: box-version, passed: [bats-vbox, bats-aws, deploy-cf-aws, build-box-docker], trigger: true}
+    - {get: bosh-lite, passed: [bats-aws, deploy-cf-aws, build-box-docker]}
+    - {get: box-version, passed: [bats-aws, deploy-cf-aws, build-box-docker], trigger: true}
     - {get: pipeline-bucket-docker, passed: [build-box-docker]}
   - task: rename-tar
     config:

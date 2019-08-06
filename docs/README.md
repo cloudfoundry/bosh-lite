@@ -76,7 +76,7 @@ Installation instructions for different Vagrant providers:
     $ vagrant up --provider=virtualbox
     ```
 
-1. When you are not using your VM we recommmend to *Pause* the VM from the VirtualBox UI (or use `vagrant suspend`), so that VM can be later simply resumed after your machine goes to sleep or gets rebooted. Otherwise, your VM will be halted by the OS and you will have to recreate previously deployed software.
+1. When you are not using your VM we recommend to *Pause* the VM from the VirtualBox UI (or use `vagrant suspend`), so that VM can be later simply resumed after your machine goes to sleep or gets rebooted. Otherwise, your VM will be halted by the OS and you will have to recreate previously deployed software.
 
 1. Target the BOSH Director. When prompted to log in, use admin/admin.
 

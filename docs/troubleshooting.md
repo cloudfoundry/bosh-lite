@@ -39,6 +39,22 @@ cannot access director (execution expired)
 
 Make sure that `192.168.50.1` is pingable. If it's not pingable, it is most likely that your VirtualBox installation did not properly set up networking. Rebooting the machine that runs VirtualBox typically resolves this problem.
 
+## Inaccessible Director with SSL errors
+
+Your machine is pingable, but you see this
+
+```
+$ bosh target 192.168.50.4 lite
+RSA 1024 bit CA certificates are loaded due to old openssl compatibility
+[WARNING] cannot access director, trying 4 more times...
+[WARNING] cannot access director, trying 3 more times...
+[WARNING] cannot access director, trying 2 more times...
+[WARNING] cannot access director, trying 1 more times...
+cannot access director (SSL_connect returned=1 errno=0 state=SSLv2/v3 read server hello A: sslv3 alert handshake failure)
+```
+
+The problem most probably is related to the ruby version. Please upgrade to a recent version and try again.
+
 ## Network already acquired
 
 ```

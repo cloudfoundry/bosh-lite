@@ -63,7 +63,6 @@
     "type": "shell",
     "execute_command": "echo 'vagrant' | {{ .Vars }} sudo -S -E {{ .Path }}",
     "scripts": [
-      "scripts/update-resolv.conf.sh",
       "scripts/quiet-tty-warning.sh",
       "scripts/apt-update.sh",
       "scripts/update-ruby.sh",

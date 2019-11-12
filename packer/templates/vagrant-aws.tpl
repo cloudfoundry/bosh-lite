@@ -38,6 +38,7 @@ Vagrant.configure('2') do |config|
     v.elastic_ip =          env.fetch('BOSH_LITE_ELASTIC_IP', nil)
     v.security_groups =     [env.fetch('BOSH_LITE_SECURITY_GROUP', 'inception')]
     v.subnet_id =           env.fetch('BOSH_LITE_SUBNET_ID') if env.include?('BOSH_LITE_SUBNET_ID')
+    v.iam_instance_profile_name =  env.fetch('BOSH_LITE_INSTANCE_PROFILE_NAME') if env.include?('BOSH_LITE_INSTANCE_PROFILE_NAME')
     v.tags =                tags_from_environment(env)
     v.private_ip_address =  env.fetch('BOSH_LITE_PRIVATE_IP') if env.include?('BOSH_LITE_PRIVATE_IP')
   end

@@ -19,6 +19,7 @@ Vagrant.configure('2') do |config|
     # (Must not fail due to missing ENV variables because this file is loaded for all providers)
     v.access_key_id = ENV['BOSH_AWS_ACCESS_KEY_ID'] || ''
     v.secret_access_key = ENV['BOSH_AWS_SECRET_ACCESS_KEY'] || ''
+    v.session_token = ENV['BOSH_AWS_SESSION_TOKEN'] || ''
     v.ami = ''
   end
 
